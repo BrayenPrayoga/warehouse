@@ -54,6 +54,13 @@
         <div class="row">
             <div class="col-md-12 stretch-card">
                 <div class="card">
+                    <div class="card-body" style="text-align:center;padding:7rem 2.5rem!important;">
+                        <h1 style="font-size:4.5rem!important">SELAMAT DATANG !</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 stretch-card" style="display:none;">
+                <div class="card">
                     <div class="card-body" style="padding:1rem 2.5rem!important;">
                         <select class="form-control select2" name="tahun" id="tahun">
                             @for($Year ; $Year > $startYear ; $Year--)
@@ -63,14 +70,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7 grid-margin stretch-card">
+            <div class="col-md-7 grid-margin stretch-card" style="display:none;">
                 <div class="card">
                     <div class="card-body">
                         <div id="chart-column"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 grid-margin stretch-card">
+            <div class="col-md-5 grid-margin stretch-card" style="display:none;">
                 <div class="card">
                     <div class="card-body">
                         <div id="chart-pie"></div>
@@ -87,9 +94,9 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready( function () {
-        $('.select2').select2();
-        defaultChartColumn();
-        defaultchartPie();
+        // $('.select2').select2();
+        // defaultChartColumn();
+        // defaultchartPie();
     });
 
     $('#tahun').change(function(){
