@@ -40,7 +40,7 @@
                                         <th> Kategori </th>
                                         <th> Nama Pemilik </th>
                                         <th> Alamat </th>
-                                        <th> Berat </th>
+                                        <th> Berat (Kg) </th>
                                         <th> Status </th>
                                         <th> Aksi </th>
                                     </tr>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="form-group">
                             <label for="kategori">Kategori</label>
-                            <select class="form-control" id="kategori" name="kategori" onchange="setDataBarang()">
+                            <select class="form-control" id="kategori" name="kategori">
                                 <option value="0" selected>--PILIH KATEGORI--</option>
                                 @foreach($kategori as $item)
                                 <option value="{{ $item->id }}">{{ $item->kategori }}</option>
@@ -114,15 +114,15 @@
                         </div>
                         <div class="form-group">
                             <label for="nama_pemilik">Nama Pemilik</label>
-                            <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" placeholder="..." required>
+                            <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" maxlength="255" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
                             <textarea class="form-control" id="alamat" name="alamat" placeholder="..." required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="berat">Berat</label>
-                            <input type="text" class="form-control" id="berat" name="berat" placeholder="..." required>
+                            <label for="berat">Berat (Kg)</label>
+                            <input type="text" class="form-control decimal" id="berat" name="berat" placeholder="..." required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -155,7 +155,7 @@
                         </div>
                         <div class="form-group">
                             <label for="kategori">Kategori</label>
-                            <select class="form-control" id="e_kategori" name="kategori" onchange="setDataBarang()">
+                            <select class="form-control" id="e_kategori" name="kategori">
                                 <option value="0" selected>--PILIH KATEGORI--</option>
                                 @foreach($kategori as $item)
                                 <option value="{{ $item->id }}">{{ $item->kategori }}</option>
@@ -171,8 +171,8 @@
                             <textarea class="form-control" id="e_alamat" name="alamat" placeholder="..." required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="berat">Berat</label>
-                            <input type="text" class="form-control" id="e_berat" name="berat" placeholder="..." required>
+                            <label for="berat">Berat (Kg)</label>
+                            <input type="text" class="form-control decimal" id="e_berat" name="berat" placeholder="..." required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -193,6 +193,7 @@
 
     function edit(obj){
         var item = $(obj).data('item');
+        var berat = item.berat
 
         $('#e_id').val(item.id);
         $('#e_kode_barang').val(item.kode_barang);
@@ -200,7 +201,7 @@
         $('#e_kategori').val(item.id_kategori);
         $('#e_nama_pemilik').val(item.nama_pemilik);
         $('#e_alamat').val(item.alamat);
-        $('#e_berat').val(item.berat);
+        $('#e_berat').val(berat.replace('.',','));
 
         $('#EditModal').modal('show');
     }

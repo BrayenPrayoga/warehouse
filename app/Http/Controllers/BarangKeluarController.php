@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\ProsesKeluar;
 use App\Models\ProsesMasuk;
+use App\Models\SewaGudang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DateTime;
 
 class BarangKeluarController extends Controller
 {
@@ -37,12 +40,31 @@ class BarangKeluarController extends Controller
                 Barang::where('kode_barang', $kode_barang)->update(['status'=>3]);
 
                 //Create Or Update ke Proses Barang
-                ProsesMasuk::updateOrCreate(
+                ProsesKeluar::updateOrCreate(
                     ['id_barang' => $check_barang->id],
                     [
                         'id_barang'     => $check_barang->id,
-                        'tanggal_masuk' => date('Y-m-d H:i:s'),
+                        'tanggal_keluar' => date('Y-m-d H:i:s'),
                         'created_at'    => date('Y-m-d H:i:s')
+                    ]);
+
+                $proses_masuk = ProsesMasuk::where('id_barang', $check_barang->id)->first();
+                $proses_keluar = ProsesKeluar::where('id_barang', $check_barang->id)->first();
+                $tanggal_masuk = new DateTime($proses_masuk->tanggal_masuk);
+                $tanggal_keluar = new DateTime($proses_keluar->tanggal_keluar);
+                $selisih = $tanggal_masuk->diff($tanggal_keluar);
+
+                $berat = $check_barang->berat;
+                $biaya = $selisih->d * $berat * 2100;
+
+                SewaGudang::updateOrCreate(
+                    ['id_barang' => $check_barang->id],
+                    [
+                        'id_barang'         => $check_barang->id,
+                        'tanggal_masuk'     => $tanggal_masuk,
+                        'tanggal_keluar'    => $tanggal_keluar,
+                        'biaya'             => $biaya,
+                        'created_at'        => date('Y-m-d H:i:s')
                     ]);
 
                 $barang = Barang::with('RelasiKategori')->join('tabel_proses_keluar','id_barang','tabel_barang.id')->where('status', 3)->orderBy('tabel_barang.id','ASC')->get();

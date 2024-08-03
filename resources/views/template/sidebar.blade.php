@@ -68,6 +68,12 @@
                     <i class="mdi mdi-cube-send menu-icon"></i>
                 </a>
             </li>
+            <li class="nav-item @if(request()->is('sewa-barang')) active @endif">
+                <a class="nav-link" href="{{ route('sewa-barang.index') }}">
+                    <span class="menu-title">Sewa Barang</span>
+                    <i class="mdi mdi-cube-send menu-icon"></i>
+                </a>
+            </li>
         @endif
         @if(Auth::guard('user')->check())
             <li class="nav-item @if(Request::segment(1) == 'dashboard') active @endif">

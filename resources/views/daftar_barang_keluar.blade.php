@@ -55,7 +55,7 @@
                                         <td> {{ $item->RelasiKategori->kategori }} </td>
                                         <td> {{ $item->nama_pemilik }} </td>
                                         <td> {{ $item->alamat }} </td>
-                                        <td> {{ $item->berat }} </td>
+                                        <td> {{ number_format($item->berat,2,',','.') }} </td>
                                         <td>
                                             <button type="button" onclick="hapus({{ $item->id_barang }})" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-delete"></i></button>
                                         </td>
@@ -92,10 +92,10 @@
                             </select>
                         </div>
                         <div id="data_barang" style="display:none">
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="rak">Rak</label>
                                 <input type="text" class="form-control" id="rak" name="rak" readonly>
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label for="nama_barang">Nama Barang</label>
                                 <input type="text" class="form-control" id="nama_barang" name="nama_barang" readonly>
@@ -118,7 +118,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="berat_barang">Berat</label>
-                                <input type="text" class="form-control" id="berat_barang" name="berat_barang" readonly>
+                                <input type="text" class="form-control decimal" id="berat_barang" name="berat_barang" readonly>
                             </div>
                         </div>
                     </div>
@@ -154,15 +154,16 @@
             success: function(response){
                 console.log(response);
                 if(response){
+                    var berat = response.berat;
                     $('#data_barang').show();
                     $('#id_barang').val(response.id_barang);
-                    $('#rak').val(response.relasi_rak.nama);
+                    // $('#rak').val(response.relasi_rak.nama);
                     $('#nama_barang').val(response.nama);
                     $('#kategori').val(response.relasi_kategori.kategori);
                     $('#tanggal_masuk').val(response.tanggal_masuk);
                     $('#nama_pemilik').val(response.nama_pemilik);
                     $('#alamat').val(response.alamat);
-                    $('#berat_barang').val(response.berat);
+                    $('#berat_barang').val(berat.replace('.',','));
                 }else{
                     $('#data_barang').hide();
                 }

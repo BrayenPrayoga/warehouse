@@ -24,15 +24,6 @@ class ProsesKeluar extends Model
             ]);
 
             Barang::where('id', $request->id_barang)->update(['status'=>2]);
-            
-            //Create Or Update ke Proses Barang
-            ProsesKeluar::updateOrCreate(
-                ['id_barang' => $request->id_barang],
-                [
-                    'id_barang'     => $request->id_barang,
-                    'tanggal_keluar' => $date,
-                    'created_at'    => $date
-                ]);
 
             return ['message' => 'success', 'data' => 'Berhasil Simpan'];
         }catch(Exception $e){

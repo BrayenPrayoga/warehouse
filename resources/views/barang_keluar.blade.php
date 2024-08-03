@@ -58,7 +58,7 @@
                                         <td> {{ $item->RelasiKategori->kategori }} </td>
                                         <td> {{ $item->nama_pemilik }} </td>
                                         <td> {{ $item->alamat }} </td>
-                                        <td> {{ $item->berat }} </td>
+                                        <td> {{ number_format($item->berat,2,',','.') }} </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -116,6 +116,7 @@
                                     var table = $('#table-id').DataTable();
                                     $.each(response.data, function(i ,val){
                                         var no = i + 1;
+                                        var berat = val.berat;
                                         table.row.add([
                                             no,
                                             val.kode_barang,
@@ -123,7 +124,7 @@
                                             val.relasi_kategori.kategori,
                                             val.nama_pemilik,
                                             val.alamat,
-                                            val.berat,
+                                            berat.replace('.',','),
                                             val.tanggal_keluar,
                                             '<button type="button" data-item="{{ json_encode('+val+') }}" onclick="edit(this)" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-border-color"></i></button><button type="button" onclick="hapus('+val.id+')" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-delete"></i></button>'
                                         ]).draw();

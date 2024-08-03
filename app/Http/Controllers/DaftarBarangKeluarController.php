@@ -18,7 +18,7 @@ class DaftarBarangKeluarController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $data['no'] = 1;
-        $data['data'] = Barang::with('RelasiKategori','RelasiRak')->join('tabel_proses_keluar','id_barang','tabel_barang.id')->where('status', 2)->orderBy('tabel_barang.id','ASC')->get();
+        $data['data'] = Barang::with('RelasiKategori','RelasiRak')->where('status', 2)->orderBy('id','ASC')->get();
         $data['barang_masuk'] = Barang::join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->orderBy('tabel_barang.id','ASC')->get();
 
         return view('daftar_barang_keluar', $data);

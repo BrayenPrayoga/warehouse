@@ -11,6 +11,7 @@ use App\Http\Controllers\MasterKategoriController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\MasterRakController;
+use App\Http\Controllers\SewaBarangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,11 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::group(['prefix'=>'admin/barang-keluar','as'=>'admin.barang-keluar.'], function(){
         Route::get('/', [BarangKeluarController::class,'index'])->name('index');
         Route::get('check-barang', [BarangKeluarController::class,'checkBarang'])->name('checkBarang');
+    });
+    
+    // Sewa Barang
+    Route::group(['prefix'=>'sewa-barang','as'=>'sewa-barang.'], function(){
+        Route::get('/', [SewaBarangController::class,'index'])->name('index');
     });
 });
 

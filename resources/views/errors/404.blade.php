@@ -1,256 +1,225 @@
-<!-- @extends('errors::minimal')
-
-@section('title', __('Not Found'))
-@section('code', '404')
-@section('message', __('Not Found')) -->
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+
+<head>
     <meta charset="utf-8">
-    <link rel="icon" href="{!! asset('images/logo.gif') !!}"/>
-    <title>Miners - 404 Not Found</title>
+    <link rel="icon" href="{!! asset('images/logo.gif') !!}" />
+    <title>404 Not Found</title>
 
-    <style media="screen">
-        @import url(https://fonts.googleapis.com/css?family=opensans:500);
-        body{
-            background: #69cc33;
-            color:#fff;
-            font-family: 'Open Sans', sans-serif;
-            max-height:700px;
-            overflow: hidden;
-        }
-        .c{
-            text-align: center;
-            display: block;
-            position: relative;
-            width:80%;
-            margin:100px auto;
-        }
-        ._500{
-            font-size: 220px;
-            position: relative;
-            display: inline-block;
-            z-index: 2;
-            height: 250px;
-            letter-spacing: 15px;
-        }
-        ._1{
-            text-align:center;
-            display:block;
-            position:relative;
-            letter-spacing: 12px;
-            font-size: 4em;
-            line-height: 80%;
-        }
-        ._2{
-            text-align:center;
-            display:block;
-            position: relative;
-            font-size: 20px;
-        }
-        .text{
-            font-size: 70px;
-            text-align: center;
-            position: relative;
-            display: inline-block;
-            margin: 19px 0px 0px 0px;
-            /* top: 256.301px; */
-            z-index: 3;
-            width: 100%;
-            line-height: 1.2em;
-            display: inline-block;
-        }
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"rel="stylesheet");
 
+        @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
 
-        .btn{
-            background-color: rgb( 255, 255, 255 );
-            position: relative;
-            display: inline-block;
-            width: 358px;
-            padding: 5px;
-            z-index: 5;
-            font-size: 25px;
-            margin:0 auto;
-            color:#69cc33;
-            text-decoration: none;
-            margin-right: 10px
-        }
-        .right{
-            float:right;
-            width:60%;
-        }
-
-        hr{
+        * {
+            margin: 0;
             padding: 0;
-            border: none;
-            border-top: 5px solid #fff;
-            color: #fff;
-            text-align: center;
-            margin: 0px auto;
-            width: 420px;
-            height:10px;
-            z-index: -10;
+            box-sizing: border-box;
         }
 
-        hr:after {
-            content: "\2022";
-            display: inline-block;
+        body {
+            overflow: hidden;
+            background-color: #f4f6ff;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Poppins", sans-serif;
             position: relative;
-            top: -0.75em;
-            font-size: 2em;
-            padding: 0 0.2em;
-            background: #69cc33;
+            left: 6vmin;
+            text-align: center;
         }
 
-        .cloud {
-            width: 350px; height: 120px;
+        .cog-wheel1,
+        .cog-wheel2 {
+            transform: scale(0.7);
+        }
 
-            background: #FFF;
-            background: linear-gradient(top, #FFF 100%);
-            background: -webkit-linear-gradient(top, #FFF 100%);
-            background: -moz-linear-gradient(top, #FFF 100%);
-            background: -ms-linear-gradient(top, #FFF 100%);
-            background: -o-linear-gradient(top, #FFF 100%);
+        .cog1,
+        .cog2 {
+            width: 40vmin;
+            height: 40vmin;
+            border-radius: 50%;
+            border: 6vmin solid #f3c623;
+            position: relative;
+        }
 
-            border-radius: 100px;
-            -webkit-border-radius: 100px;
-            -moz-border-radius: 100px;
 
+        .cog2 {
+            border: 6vmin solid #4f8a8b;
+        }
+
+        .top,
+        .down,
+        .left,
+        .right,
+        .left-top,
+        .left-down,
+        .right-top,
+        .right-down {
+            width: 10vmin;
+            height: 10vmin;
+            background-color: #f3c623;
             position: absolute;
-            margin: 120px auto 20px;
-            z-index:-1;
-            transition: ease 1s;
         }
 
-        .cloud:after, .cloud:before {
-            content: '';
+        .cog2 .top,
+        .cog2 .down,
+        .cog2 .left,
+        .cog2 .right,
+        .cog2 .left-top,
+        .cog2 .left-down,
+        .cog2 .right-top,
+        .cog2 .right-down {
+            background-color: #4f8a8b;
+        }
+
+        .top {
+            top: -14vmin;
+            left: 9vmin;
+        }
+
+        .down {
+            bottom: -14vmin;
+            left: 9vmin;
+        }
+
+        .left {
+            left: -14vmin;
+            top: 9vmin;
+        }
+
+        .right {
+            right: -14vmin;
+            top: 9vmin;
+        }
+
+        .left-top {
+            transform: rotateZ(-45deg);
+            left: -8vmin;
+            top: -8vmin;
+        }
+
+        .left-down {
+            transform: rotateZ(45deg);
+            left: -8vmin;
+            top: 25vmin;
+        }
+
+        .right-top {
+            transform: rotateZ(45deg);
+            right: -8vmin;
+            top: -8vmin;
+        }
+
+        .right-down {
+            transform: rotateZ(-45deg);
+            right: -8vmin;
+            top: 25vmin;
+        }
+
+        .cog2 {
+            position: relative;
+            left: -10.2vmin;
+            bottom: 10vmin;
+        }
+
+        h1 {
+            color: #142833;
+        }
+
+        .first-four {
+            position: relative;
+            left: 6vmin;
+            font-size: 40vmin;
+        }
+
+        .second-four {
+            position: relative;
+            right: 18vmin;
+            z-index: -1;
+            font-size: 40vmin;
+        }
+
+        .wrong-para {
+            font-family: "Montserrat", sans-serif;
             position: absolute;
-            background: #FFF;
-            z-index: -1
-        }
-
-        .cloud:after {
-            width: 100px; height: 100px;
-            top: -50px; left: 50px;
-
-            border-radius: 100px;
-            -webkit-border-radius: 100px;
-            -moz-border-radius: 100px;
-        }
-
-        .cloud:before {
-            width: 180px; height: 180px;
-            top: -90px; right: 50px;
-
-            border-radius: 200px;
-            -webkit-border-radius: 200px;
-            -moz-border-radius: 200px;
-        }
-
-        .x1 {
-            top:-50px;
-            left:100px;
-            -webkit-transform: scale(0.3);
-            -moz-transform: scale(0.3);
-            transform: scale(0.3);
-            opacity: 0.9;
-            -webkit-animation: moveclouds 15s linear infinite;
-            -moz-animation: moveclouds 15s linear infinite;
-            -o-animation: moveclouds 15s linear infinite;
-        }
-
-        .x1_5{
-            top:-80px;
-            left:250px;
-            -webkit-transform: scale(0.3);
-            -moz-transform: scale(0.3);
-            transform: scale(0.3);
-            -webkit-animation: moveclouds 17s linear infinite;
-            -moz-animation: moveclouds 17s linear infinite;
-            -o-animation: moveclouds 17s linear infinite;
-        }
-
-        .x2 {
-            left: 250px;
-            top:30px;
-            -webkit-transform: scale(0.6);
-            -moz-transform: scale(0.6);
-            transform: scale(0.6);
-            opacity: 0.6;
-            -webkit-animation: moveclouds 25s linear infinite;
-            -moz-animation: moveclouds 25s linear infinite;
-            -o-animation: moveclouds 25s linear infinite;
-        }
-
-        .x3 {
-            left: 250px; bottom: -70px;
-
-            -webkit-transform: scale(0.6);
-            -moz-transform: scale(0.6);
-            transform: scale(0.6);
-            opacity: 0.8;
-
-            -webkit-animation: moveclouds 25s linear infinite;
-            -moz-animation: moveclouds 25s linear infinite;
-            -o-animation: moveclouds 25s linear infinite;
-        }
-
-        .x4 {
-            left: 470px; botttom: 20px;
-
-            -webkit-transform: scale(0.75);
-            -moz-transform: scale(0.75);
-            transform: scale(0.75);
-            opacity: 0.75;
-
-            -webkit-animation: moveclouds 18s linear infinite;
-            -moz-animation: moveclouds 18s linear infinite;
-            -o-animation: moveclouds 18s linear infinite;
-        }
-
-        .x5 {
-            left: 200px; top: 300px;
-
-            -webkit-transform: scale(0.5);
-            -moz-transform: scale(0.5);
-            transform: scale(0.5);
-            opacity: 0.8;
-
-            -webkit-animation: moveclouds 20s linear infinite;
-            -moz-animation: moveclouds 20s linear infinite;
-            -o-animation: moveclouds 20s linear infinite;
-        }
-
-        @-webkit-keyframes moveclouds {
-            0% {margin-left: 1000px;}
-            100% {margin-left: -1000px;}
-        }
-        @-moz-keyframes moveclouds {
-            0% {margin-left: 1000px;}
-            100% {margin-left: -1000px;}
-        }
-        @-o-keyframes moveclouds {
-            0% {margin-left: 1000px;}
-            100% {margin-left: -1000px;}
+            bottom: 15vmin;
+            padding: 3vmin 12vmin 3vmin 3vmin;
+            font-weight: 600;
+            color: #092532;
         }
     </style>
-  </head>
-  <body>
-    <div id="clouds">
-           <div class="cloud x1"></div>
-           <div class="cloud x1_5"></div>
-           <div class="cloud x2"></div>
-           <div class="cloud x3"></div>
-           <div class="cloud x4"></div>
-           <div class="cloud x5"></div>
-       </div>
-       <div class='c'>
-           <div class='_500'>404</div>
-           <hr>
-           <div class='_1'>Not Found</div>
-           <div class='_2'>HARAP HUBUNGI ADMIN</div>
-           <a class='btn' href='javascript:void(0);' onclick="window.history.back();">KEMBALI</a>
-       </div>
-  </body>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="first-four">4</h1>
+        <div class="cog-wheel1">
+            <div class="cog1">
+                <div class="top"></div>
+                <div class="down"></div>
+                <div class="left-top"></div>
+                <div class="left-down"></div>
+                <div class="right-top"></div>
+                <div class="right-down"></div>
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+        </div>
+
+        <div class="cog-wheel2">
+            <div class="cog2">
+                <div class="top"></div>
+                <div class="down"></div>
+                <div class="left-top"></div>
+                <div class="left-down"></div>
+                <div class="right-top"></div>
+                <div class="right-down"></div>
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+        </div>
+        <h1 class="second-four">4</h1>
+        <p class="wrong-para">Uh Oh! Page not found!</p>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.1/gsap.min.js"></script>
+<script>
+    let t1 = gsap.timeline();
+    let t2 = gsap.timeline();
+    let t3 = gsap.timeline();
+
+    t1.to(".cog1", {
+        transformOrigin: "50% 50%",
+        rotation: "+=360",
+        repeat: -1,
+        ease: Linear.easeNone,
+        duration: 8
+    });
+
+    t2.to(".cog2", {
+        transformOrigin: "50% 50%",
+        rotation: "-=360",
+        repeat: -1,
+        ease: Linear.easeNone,
+        duration: 8
+    });
+
+    t3.fromTo(".wrong-para", {
+        opacity: 0
+    }, {
+        opacity: 1,
+        duration: 1,
+        stagger: {
+            repeat: -1,
+            yoyo: true
+        }
+    });
+</script>
+
 </html>

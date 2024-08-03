@@ -28,3 +28,28 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<script>
+    $(document).ready(function(){
+        $(document).ready(function(){
+            $('.decimal').inputmask({
+                alias: "decimal",
+                digits: 2,
+                repeat: 10,
+                digitsOptional: false,
+                decimalProtect: true,
+                groupSeparator: ".",
+                placeholder: '0',
+                radixPoint: ",",
+                radixFocus: true,
+                autoGroup: true,
+                autoUnmask: false,
+                onBeforeMask: function(value, opts) {
+                    return value;
+                },
+                removeMaskOnSubmit: true
+            });
+        })
+    })
+</script>

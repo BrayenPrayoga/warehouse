@@ -35,7 +35,7 @@ class Barang extends Model
                 'id_kategori'   => $request->kategori,
                 'nama_pemilik'  => $request->nama_pemilik,
                 'alamat'        => $request->alamat,
-                'berat'         => $request->berat,
+                'berat'         => str_replace(',','.',$request->berat),
                 'created_at'    => $date
             ];
             $store = Barang::create($data);
@@ -67,7 +67,7 @@ class Barang extends Model
                 'id_kategori'   => $request->kategori,
                 'nama_pemilik'  => $request->nama_pemilik,
                 'alamat'        => $request->alamat,
-                'berat'         => $request->berat,
+                'berat'         => str_replace(',','.',$request->berat),
                 'created_at'    => $date
             ];
             $banner = Barang::where('id', $request->id)->update($data);

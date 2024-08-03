@@ -62,7 +62,7 @@
                                         <td> {{ $item->RelasiKategori->kategori }} </td>
                                         <td> {{ $item->nama_pemilik }} </td>
                                         <td> {{ $item->alamat }} </td>
-                                        <td> {{ $item->berat }} </td>
+                                        <td> {{ number_format($item->berat,2,',','.') }} </td>
                                         <td> {{ $item->tanggal_masuk }} </td>
                                         <td>
                                             <button type="button" data-item="{{ json_encode($item) }}" onclick="edit(this)" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-border-color"></i></button>
@@ -157,15 +157,16 @@
                                     var table = $('#table-id').DataTable();
                                     $.each(response.data, function(i ,val){
                                         var no = i + 1;
+                                        var berat = val.berat;
                                         table.row.add([
                                             no,
                                             val.kode_barang,
-                                            val.relasi_rak.nama,
+                                            (val.relasi_rak.nama) ? val.relasi_rak.nama : '',
                                             val.nama,
                                             val.relasi_kategori.kategori,
                                             val.nama_pemilik,
                                             val.alamat,
-                                            val.berat,
+                                            berat.replace('.',','),
                                             val.tanggal_masuk,
                                             '<button type="button" data-item="{{ json_encode($item) }}" onclick="edit(this)" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-border-color"></i></button>'
                                         ]).draw();
