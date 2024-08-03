@@ -71,7 +71,7 @@
             <li class="nav-item @if(request()->is('sewa-barang')) active @endif">
                 <a class="nav-link" href="{{ route('sewa-barang.index') }}">
                     <span class="menu-title">Sewa Barang</span>
-                    <i class="mdi mdi-cube-send menu-icon"></i>
+                    <i class="mdi mdi-cash-multiple menu-icon"></i>
                 </a>
             </li>
         @endif

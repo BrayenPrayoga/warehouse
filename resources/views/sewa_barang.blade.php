@@ -37,6 +37,7 @@
                                         <th> Tanggal Keluar </th>
                                         <th> Berat </th>
                                         <th> Biaya </th>
+                                        <th> Aksi </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,6 +50,9 @@
                                         <td> {{ $item->tanggal_keluar }} </td>
                                         <td> {{ number_format($item->berat,2,',','.') }} </td>
                                         <td> {{ number_format($item->biaya,2,',','.') }} </td>
+                                        <td>
+                                            <a href="#" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
