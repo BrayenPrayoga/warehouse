@@ -51,7 +51,7 @@
                                         <td> {{ number_format($item->berat,2,',','.') }} </td>
                                         <td> {{ number_format($item->biaya,2,',','.') }} </td>
                                         <td>
-                                            <a href="#" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
+                                            <a href="{{ route('sewa-barang.cetak.invoice',[base64_encode($item->id)]) }}" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach

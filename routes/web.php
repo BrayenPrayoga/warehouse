@@ -102,6 +102,7 @@ Route::middleware(['auth:admin'])->group(function () {
     // Sewa Barang
     Route::group(['prefix'=>'sewa-barang','as'=>'sewa-barang.'], function(){
         Route::get('/', [SewaBarangController::class,'index'])->name('index');
+        Route::get('cetak-invoice/{id_barang}', [SewaBarangController::class,'cetakInvoice'])->name('cetak.invoice');
     });
 });
 
