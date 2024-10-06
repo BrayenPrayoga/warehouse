@@ -91,14 +91,14 @@
         @endif
 
         var kode_barang = $('#kode_barang').val();
-        Swal.fire({
-            icon: "question",
-            title: "Apakah Ingin Menyimpan Barang?",
-            showCancelButton: true,
-            cancelButtonText: "CANCEL",
-            confirmButtonText: "SIMPAN"
-            }).then((result) => {
-                if (result.isConfirmed) {
+        // Swal.fire({
+        //     icon: "question",
+        //     title: "Apakah Ingin Menyimpan Barang?",
+        //     showCancelButton: true,
+        //     cancelButtonText: "CANCEL",
+        //     confirmButtonText: "SIMPAN"
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
                     if(kode_barang){
                         $.ajax({
                             type: 'GET',
@@ -107,11 +107,26 @@
                             success: function(response){
                                 console.log(response);
                                 if(response.status == 0){
-                                    Swal.fire("Barang Belum Masuk", "", "info");
+                                    Swal.fire({
+                                        icon: "info",
+                                        title: "Barang Belum Masuk",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
                                 }else if(response.status == 1){
-                                    Swal.fire("Barang Belum Keluar", "", "info");
+                                    Swal.fire({
+                                        icon: "info",
+                                        title: "Barang Belum Keluar",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
                                 }else if(response.status == 2){
-                                    Swal.fire("Barang Tersedia", "", "success");
+                                    Swal.fire({
+                                        icon: "info",
+                                        title: "Barang Tersedia",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
                                     $('#table-id').DataTable().clear().draw();
                                     var table = $('#table-id').DataTable();
                                     $.each(response.data, function(i ,val){
@@ -130,20 +145,35 @@
                                         ]).draw();
                                     })
                                 }else if(response.status == 3){
-                                    Swal.fire("Barang Sudah Keluar", "", "info");
+                                    Swal.fire({
+                                        icon: "info",
+                                        title: "Barang Sudah Keluar",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
                                 }else{
-                                    Swal.fire("Barang Tidak Ditemukan", "", "error");
+                                    Swal.fire({
+                                        icon: "info",
+                                        title: "Barang Tidak Ditemukan",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
                                 }
                             }
                         });
                     }else{
-                        Swal.fire("Kode Barang Tidak Boleh Kosong", "", "info");
+                        Swal.fire({
+                            icon: "info",
+                            title: "Kode Barang Tidak Boleh Kosong",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     }
-                } else{
-                    Swal.fire("Membatalkan Perubahan", "", "info");
-                }
+                // } else{
+                //     Swal.fire("Membatalkan Perubahan", "", "info");
+                // }
                 $('#kode_barang').val('');
-        });
+        // });
     }
 
     function edit(obj){

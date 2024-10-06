@@ -35,6 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th> No. </th>
+                                        <th> Kode Rak </th>
                                         <th> Nama </th>
                                         <th> Lokasi </th>
                                         <th> Aksi </th>
@@ -44,6 +45,7 @@
                                     @foreach($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td> {{ $item->kode_rak }} </td>
                                         <td> {{ $item->nama }} </td>
                                         <td> {{ $item->lokasi }} </td>
                                         <td>
@@ -72,6 +74,10 @@
                 <form method="POST" action="{{ route('master-rak.store') }}" enctype="multipart/form-data">
                 @csrf
                     <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama">Kode Rak</label>
+                            <input type="text" class="form-control" id="kode_rak" value="{{ $kode_rak }}" name="kode_rak" readonly>
+                        </div>
                         <div class="form-group">
                             <label for="nama">Nama</label>
                             <input type="text" class="form-control" id="nama" name="nama" maxlength="255" placeholder="..." required>
@@ -102,6 +108,10 @@
                     <div class="modal-body">
                         <input type="hidden" id="e_id" name="id">
                         <div class="form-group">
+                            <label for="nama">Kode Rak</label>
+                            <input type="text" class="form-control" id="e_kode_rak" name="kode_rak" readonly>
+                        </div>
+                        <div class="form-group">
                             <label for="nama">Nama</label>
                             <input type="text" class="form-control" id="e_nama" name="nama" maxlength="255" placeholder="..." required>
                         </div>
@@ -130,6 +140,7 @@
         var item = $(obj).data('item');
         console.log(item);
         $('#e_id').val(item.id);
+        $('#e_kode_rak').val(item.kode_rak);
         $('#e_nama').val(item.nama);
         $('#e_lokasi').val(item.lokasi);
 

@@ -18,11 +18,13 @@ class MasterRak extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
+                'kode_rak'          =>'required|max:50',
                 'nama'              =>'required|max:255',
-                'lokasi'              =>'required|max:255'
+                'lokasi'            =>'required|max:255'
             ]);
 
             $data = [
+                'kode_rak'          => $request->kode_rak,
                 'nama'              => $request->nama,
                 'lokasi'            => $request->lokasi,
                 'created_at'        => date('Y-m-d H:i:s')
@@ -40,11 +42,13 @@ class MasterRak extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
+                'kode_rak'          =>'required|max:50',
                 'nama'              =>'required|max:255',
-                'lokasi'              =>'required|max:255'
+                'lokasi'            =>'required|max:255'
             ]);
 
             $data = [
+                'kode_rak'          => $request->kode_rak,
                 'nama'              => $request->nama,
                 'lokasi'            => $request->lokasi,
                 'updated_at'    => date('Y-m-d H:i:s')

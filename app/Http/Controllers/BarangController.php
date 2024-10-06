@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\MasterKategori;
 use Illuminate\Http\Request;
+use App\Imports\importBarangMasuk;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
@@ -72,5 +74,17 @@ class BarangController extends Controller
         }else{
             return redirect()->back()->with(['error'=>$response['data']]);
         }
+    }
+
+    public function import(Request $request){
+        // Validasi file yang diunggah
+        $request->validate([
+            'upload_excel' => 'required|mimes:xls,xlsx'
+        ]);
+
+        // Mengimpor file menggunakan YourDataImport
+        Excel::import(new importBarangMasuk, $request->file('upload_excel'));
+
+        return back()->with('success', 'Data berhasil diimpor!');
     }
 }

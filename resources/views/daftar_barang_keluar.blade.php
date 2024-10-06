@@ -28,8 +28,12 @@
                         @endif
                         <div class="table-responsive">
                             <br>
+                            <p>Format Import : <a href="{{ asset('import/format_import_barang_keluar.xlsx') }}" target="_blank">Download</a></p>
                             <button type="button" class="btn btn-sm btn-success btn-fw" onclick="openModal()">
                                 <i class="mdi mdi-plus"></i>Tambah
+                            </button>
+                            <button type="button" class="btn btn-sm btn-primary btn-fw" data-bs-toggle="modal" data-bs-target="#ImportModal">
+                                <i class="mdi mdi-plus"></i>Import
                             </button>
                             <table class="table" id="table-id">
                                 <thead>
@@ -120,6 +124,31 @@
                                 <label for="berat_barang">Berat</label>
                                 <input type="text" class="form-control decimal" id="berat_barang" name="berat_barang" readonly>
                             </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">TUTUP</button>
+                        <button type="submit" class="btn btn-primary">SIMPAN</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="ImportModal" tabindex="-1" aria-labelledby="ImportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ImportModalLabel">Import Barang Keluar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('daftar-barang-keluar.import') }}" enctype="multipart/form-data">
+                @csrf
+                    <div class="modal-body">
+                        <input type="hidden" id="status" name="status" value="0">
+                        <div class="form-group">
+                            <label for="kode_barang">Upload Excel</label>
+                            <input type="file" class="form-control" id="upload_excel" name="upload_excel" placeholder="..." required>
                         </div>
                     </div>
                     <div class="modal-footer">

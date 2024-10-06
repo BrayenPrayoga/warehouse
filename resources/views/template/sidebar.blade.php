@@ -56,6 +56,12 @@
                     <i class="mdi mdi-cube-send menu-icon"></i>
                 </a>
             </li>
+            <li class="nav-item {{ (request()->is('admin/masuk-rak')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.masuk-rak.index') }}">
+                    <span class="menu-title">Masuk Rak</span>
+                    <i class="mdi mdi-cube-send menu-icon"></i>
+                </a>
+            </li>
             <li class="nav-item @if(request()->is('daftar-barang-keluar')) active @endif">
                 <a class="nav-link" href="{{ route('daftar-barang-keluar.index') }}">
                     <span class="menu-title">Daftar Barang Keluar</span>

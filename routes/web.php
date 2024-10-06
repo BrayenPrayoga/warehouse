@@ -11,6 +11,7 @@ use App\Http\Controllers\MasterKategoriController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\MasterRakController;
+use App\Http\Controllers\MasukRakController;
 use App\Http\Controllers\SewaBarangController;
 
 /*
@@ -76,13 +77,19 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('store', [BarangController::class,'store'])->name('store');
         Route::post('update', [BarangController::class,'update'])->name('update');
         Route::get('delete/{id}', [BarangController::class,'delete'])->name('delete');
+        Route::post('import', [BarangController::class,'import'])->name('import');
     });
     
     // Barang Masuk
     Route::group(['prefix'=>'admin/barang-masuk','as'=>'admin.barang-masuk.'], function(){
         Route::get('/', [BarangMasukController::class,'index'])->name('index');
         Route::get('check-barang', [BarangMasukController::class,'checkBarang'])->name('checkBarang');
-        Route::post('update', [BarangMasukController::class,'update'])->name('update');
+    });
+    
+    // Masuk Rak
+    Route::group(['prefix'=>'admin/masuk-rak','as'=>'admin.masuk-rak.'], function(){
+        Route::get('/', [MasukRakController::class,'index'])->name('index');
+        Route::get('check-barang', [MasukRakController::class,'checkBarang'])->name('checkBarang');
     });
 
     // Daftar Barang Keluar
@@ -91,6 +98,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('get-data-barang', [DaftarBarangKeluarController::class,'getDataBarang'])->name('getDataBarang');
         Route::post('store', [DaftarBarangKeluarController::class,'store'])->name('store');
         Route::get('delete/{id_barang}', [DaftarBarangKeluarController::class,'delete'])->name('delete');
+        Route::post('import', [DaftarBarangKeluarController::class,'import'])->name('import');
     });
     
     // Barang Keluar

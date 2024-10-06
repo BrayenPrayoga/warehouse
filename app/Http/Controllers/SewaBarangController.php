@@ -45,6 +45,7 @@ class SewaBarangController extends Controller
 
         // return view('cetak_invoice', $data);
         $pdf = Pdf::loadView('cetak_invoice', $data);
+        $pdf->setPaper('B5', 'landscape');
         return $pdf->stream('Invoice_'.$data['date'].'.pdf');
     }
 

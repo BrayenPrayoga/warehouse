@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('master_rak', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_rak', 50)->nullable();
             $table->string('nama')->nullable();
             $table->string('lokasi')->nullable();
             $table->timestamps();

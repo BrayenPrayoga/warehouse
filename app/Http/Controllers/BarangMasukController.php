@@ -56,14 +56,5 @@ class BarangMasukController extends Controller
             return false;
         }
     }
-    
-    public function update(Request $request){
-        $response = ProsesMasuk::updateModel($request);
 
-        if($response['message'] == 'success'){
-            return redirect()->back()->with(['success'=>'Berhasil Update']);
-        }else{
-            return redirect()->back()->with(['error'=>$response['data']]);
-        }
-    }
 }

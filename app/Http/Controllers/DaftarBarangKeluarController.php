@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\ProsesKeluar;
 use Illuminate\Http\Request;
+use App\Imports\importBarangKeluar;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 
 class DaftarBarangKeluarController extends Controller
@@ -19,7 +21,7 @@ class DaftarBarangKeluarController extends Controller
 
         $data['no'] = 1;
         $data['data'] = Barang::with('RelasiKategori','RelasiRak')->where('status', 2)->orderBy('id','ASC')->get();
-        $data['barang_masuk'] = Barang::join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->orderBy('tabel_barang.id','ASC')->get();
+        $data['barang_masuk'] = Barang::join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->whereNotNull('id_rak')->orderBy('tabel_barang.id','ASC')->get();
 
         return view('daftar_barang_keluar', $data);
     }
@@ -29,6 +31,7 @@ class DaftarBarangKeluarController extends Controller
         
         $data = Barang::with('RelasiKategori','RelasiRak')->join('tabel_proses_masuk','id_barang','tabel_barang.id')
                 ->where('status', 1)
+                ->whereNotNull('id_rak')
                 ->where('kode_barang', $kode_barang)
                 ->orderBy('tabel_barang.id','ASC')
                 ->first();
@@ -54,5 +57,17 @@ class DaftarBarangKeluarController extends Controller
         }else{
             return redirect()->back()->with(['error'=>$response['data']]);
         }
+    }
+    
+    public function import(Request $request){
+        // Validasi file yang diunggah
+        $request->validate([
+            'upload_excel' => 'required|mimes:xls,xlsx'
+        ]);
+
+        // Mengimpor file menggunakan YourDataImport
+        Excel::import(new importBarangKeluar, $request->file('upload_excel'));
+
+        return back()->with('success', 'Data berhasil diimpor!');
     }
 }
