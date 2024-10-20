@@ -50,9 +50,15 @@
                                         <td> {{ $item->email }} </td>
                                         <td>
                                             @if($item->status == 1)
-                                            <label class="badge badge-gradient-success">user</label>
-                                            @else
                                             <label class="badge badge-gradient-warning">admin</label>
+                                            @elseif($item->status == 2)
+                                            <label class="badge badge-gradient-success">user gate in</label>
+                                            @elseif($item->status == 3)
+                                            <label class="badge badge-gradient-success">user gate out</label>
+                                            @elseif($item->status == 4)
+                                            <label class="badge badge-gradient-success">user stok</label>
+                                            @elseif($item->status == 5)
+                                            <label class="badge badge-gradient-success">user billing</label>
                                             @endif
                                         </td>
                                         <td> {{ $item->created_at }} </td>
@@ -98,8 +104,11 @@
                         <div class="form-group">
                             <label for="email">Role</label>
                             <select class="form-control" id="role" name="role" required>
-                                <option value="1">USERS</option>
-                                <option value="2">ADMIN</option>
+                                <option value="1">ADMIN</option>
+                                <option value="2">USER GATE IN</option>
+                                <option value="3">USER GATE OUT</option>
+                                <option value="4">USER STOK</option>
+                                <option value="5">USER BILLING</option>
                             </select>
                         </div>
                     </div>
@@ -138,8 +147,11 @@
                         <div class="form-group">
                             <label for="email">Role</label>
                             <select class="form-control" id="e_role" name="role" required>
-                                <option value="1">USERS</option>
-                                <option value="2">ADMIN</option>
+                                <option value="1">ADMIN</option>
+                                <option value="2">USER GATE IN</option>
+                                <option value="3">USER GATE OUT</option>
+                                <option value="4">USER STOK</option>
+                                <option value="5">USER BILLING</option>
                             </select>
                         </div>
                     </div>

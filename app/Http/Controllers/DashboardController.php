@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\DetailTransaksi;
 use App\Models\Produk;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -15,80 +17,130 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        $data['startYear'] = date('Y') - 10;
-        $data['Year'] = date('Y');
+        $data['tanggal'] = Barang::select(DB::raw('DATE(created_at) as created_date'))->groupBy('created_at')->orderBy('created_at','ASC')->get();
 
         return view('dashboard', $data);
     }
 
-    public function chartColumn(){
+
+    public function chartColumnHarian(){
+        date_default_timezone_set('Asia/Jakarta');
+
+        $tanggal = ($_GET['tanggal']) ? $_GET['tanggal'] : date('Y-m-d');
+    
+        $barang_masuk = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_masuk','tabel_proses_masuk.id_barang','tabel_barang.id')
+                    ->where('status', 1)->whereDate('tabel_proses_masuk.tanggal_masuk', $tanggal)->get();
+        $barang_keluar = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_keluar','tabel_proses_keluar.id_barang','tabel_barang.id')
+                    ->where('status', 3)->whereDate('tabel_proses_keluar.tanggal_keluar', $tanggal)->get();
+        $barang_gudang = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))
+                    ->where('status', NULL)->whereDate('created_at', $tanggal)->get();
+
+        $jumlah_barang_masuk = (count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0;
+        $jumlah_barang_keluar = (count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0;
+        $jumlah_barang_gudang = (count($barang_gudang)!=0) ? $barang_gudang[0]->jumlah : 0;
+        
+        $berat_barang_masuk = (count($barang_masuk)!=0) ? (float)$barang_masuk[0]->berat : 0;
+        $berat_barang_keluar = (count($barang_keluar)!=0) ? (float)$barang_keluar[0]->berat : 0;
+        $berat_barang_gudang = (count($barang_gudang)!=0) ? (float)$barang_gudang[0]->berat : 0;
+
+        $jumlah = [$jumlah_barang_masuk, $jumlah_barang_keluar, $jumlah_barang_gudang];
+        $berat = [$berat_barang_masuk, $berat_barang_keluar, $berat_barang_gudang];
+
+        return ([
+            'tanggal' => $tanggal,
+            'jumlah' => $jumlah,
+            'berat' => $berat
+        ]);
+    }
+
+    public function chartColumnBulanan(){
         $series = [];
         $category = [];
         $cat = [];
 
-        $tahun = $_GET['tahun'];
-        $terjual = Transaksi::with('RelasiDetailTransaksi')->whereYear('tanggal_transaksi', $tahun)->get();
+        $bulan = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
 
-        foreach($terjual as $item){
-            foreach($item->RelasiDetailTransaksi as $val){
-                if(!in_array($val->id_produk, $cat, true)){
-                    array_push($cat, $val->id_produk);
-                }
-            }
+        foreach($bulan as $cat){
+            $category[] = $cat;
         }
 
-        if(count($terjual) > 0){
-            foreach($cat as $item){
-                $produk = Produk::where('id',$item)->first();
-                $category[] = ($produk) ? $produk->produk : '-';
-                $series[] = DetailTransaksi::where('id_produk', $item)->count();
-            }
-        }else{
-            $category[] = ['-'];
-            $series[] = [0];
+        foreach($bulan as $key=>$item){
+            $barang_masuk = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_masuk','tabel_proses_masuk.id_barang','tabel_barang.id')
+                    ->where('status', 1)->whereMonth('tabel_barang.created_at', $key)->get();
+            $barang_keluar = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_keluar','tabel_proses_keluar.id_barang','tabel_barang.id')
+                    ->where('status', 3)->whereMonth('tabel_barang.created_at', $key)->get();
+            $barang_gudang = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))
+                    ->where('status', NULL)->whereMonth('created_at', $key)->get();
+
+            $data_barang_masuk[] = (count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0;
+            $data_barang_keluar[] = (count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0;
+            $data_barang_gudang[] = (count($barang_gudang)!=0) ? $barang_gudang[0]->jumlah : 0;
+
         }
+        $jumlah_barang_masuk = $data_barang_masuk;
+        $jumlah_barang_keluar = $data_barang_keluar;
+        $jumlah_barang_gudang = $data_barang_gudang;
 
         return ([
-            'tahun' => $tahun,
             'category' => $category,
-            'series' => $series
+            'barang_masuk' => $jumlah_barang_masuk,
+            'barang_keluar' => $jumlah_barang_keluar,
+            'barang_gudang' => $jumlah_barang_gudang
         ]);
     }
     
     public function chartPie(){
         $series = [];
-        $cat = [];
+        $count_barang = Barang::whereIn('status',[1,3])->orWhereNull('status')->count();
+        
+        $barang_masuk = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_masuk','tabel_proses_masuk.id_barang','tabel_barang.id')
+                ->where('status', 1)->get();
+        $barang_keluar = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_keluar','tabel_proses_keluar.id_barang','tabel_barang.id')
+                ->where('status', 3)->get();
+        $barang_gudang = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))
+                ->where('status', NULL)->get();
 
-        $tahun = $_GET['tahun'];
-        $terjual = Transaksi::with('RelasiDetailTransaksi')->whereYear('tanggal_transaksi', $tahun)->get();
+        $data_barang_masuk = (count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0;
+        $data_barang_keluar = (count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0;
+        $data_barang_gudang = (count($barang_gudang)!=0) ? $barang_gudang[0]->jumlah : 0;
+        $jumlah_seluruh = $data_barang_masuk + $data_barang_keluar + $data_barang_gudang;
 
-        foreach($terjual as $item){
-            foreach($item->RelasiDetailTransaksi as $val){
-                if(!in_array($val->id_produk, $cat, true)){
-                    array_push($cat, $val->id_produk);
-                }
-            }
-        }
-
-        if(count($terjual) > 0){
-            foreach($cat as $item){
-                $produk = Produk::where('id',$item)->first();
-                $jumlah_produk_terjual = DetailTransaksi::where('id_produk', $item)->count();
-                $persentase = $jumlah_produk_terjual / $produk->stok * 100;
-
-                $category[] = ($produk) ? $produk->produk : '-';
-                $category[] = Round($persentase,2);
-                $series[] = $category;
-                $category = [];
-            }
+        if($count_barang != 0){
+            $persentase_barang_masuk = $data_barang_masuk / $count_barang * 100;
+            $persentase_barang_keluar = $data_barang_keluar / $count_barang * 100;
+            $persentase_barang_gudang = $data_barang_gudang / $count_barang * 100;
         }else{
-            $category[] = ['-'];
-            $series[] = [0];
+            $persentase_barang_masuk = 0;
+            $persentase_barang_keluar = 0;
+            $persentase_barang_gudang = 0;
         }
+
+        $category_masuk[] = 'Barang Masuk';
+        $category_masuk[] = Round($persentase_barang_masuk,2);
+        $series[] = $category_masuk;
+        $category_keluar[] = 'Barang Keluar';
+        $category_keluar[] = Round($persentase_barang_keluar,2);
+        $series[] = $category_keluar;
+        $category_gudang[] = 'Barang Di Gudang';
+        $category_gudang[] = Round($persentase_barang_gudang,2);
+        $series[] = $category_gudang;
 
         return ([
-            'tahun' => $tahun,
             'series' => $series
         ]);
     }
+    
 }

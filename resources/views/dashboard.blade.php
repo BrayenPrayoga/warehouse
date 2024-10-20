@@ -52,35 +52,43 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 stretch-card">
+            {{-- <div class="col-md-12 stretch-card">
                 <div class="card">
                     <div class="card-body" style="text-align:center;padding:7rem 2.5rem!important;">
                         <h1 style="font-size:4.5rem!important">SELAMAT DATANG !</h1>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 stretch-card" style="display:none;">
+            </div> --}}
+            <div class="col-md-12 stretch-card">
                 <div class="card">
                     <div class="card-body" style="padding:1rem 2.5rem!important;">
-                        <select class="form-control select2" name="tahun" id="tahun">
-                            @for($Year ; $Year > $startYear ; $Year--)
-                            <option value="{{ $Year }}">{{ $Year }}</option>
-                            @endfor
+                        <select class="form-control select2" name="tanggal" id="tanggal">
+                            <option value="" selected>HARI INI</option>
+                            @foreach($tanggal as $item)
+                            <option value="{{ $item->created_date }}">{{ $item->created_date }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="col-md-7 grid-margin stretch-card" style="display:none;">
+            <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <div id="chart-column"></div>
+                        <div id="chart-column-harian"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 grid-margin stretch-card" style="display:none;">
+            <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <div id="chart-pie"></div>
+                        <div id="chart-column-bulanan"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="chart-pie-bulanan"></div>
                     </div>
                 </div>
             </div>
@@ -94,15 +102,140 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready( function () {
-        // $('.select2').select2();
-        // defaultChartColumn();
-        // defaultchartPie();
-    });
-
-    $('#tahun').change(function(){
-        defaultChartColumn();
+        $('.select2').select2();
+        defaultChartColumnHarian();
+        defaultChartColumnBulanan();
         defaultchartPie();
     });
+
+    $('#tanggal').change(function(){
+        defaultChartColumnHarian();
+        defaultChartColumnBulanan();
+        defaultchartPie();
+    });
+
+    function defaultChartColumnHarian(){
+        var tanggal = $('#tanggal').val();
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('dashboard.chartColumnHarian') }}",
+            data : {tanggal:tanggal},
+            success: function(response){
+                chartColumnHarian(response);
+            }
+        });
+    }
+    function chartColumnHarian(response){
+        Highcharts.chart('chart-column-harian', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Jumlah Dan Berat Pada Tanggal '+response.tanggal,
+                align: 'center'
+            },
+            xAxis: {
+                categories: ['Barang Masuk', 'Barang Keluar', 'Barang Di Gudang'],
+                crosshair: true,
+                accessibility: {
+                    description: 'Countries'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Jumlah dan Berat'
+                }
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [
+                {
+                    name: 'Jumlah',
+                    data: response.jumlah
+                },
+                {
+                    name: 'Berat',
+                    data: response.berat
+                }
+            ]
+        });
+
+    }
+
+    function defaultChartColumnBulanan(){
+        var tanggal = $('#tanggal').val();
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('dashboard.chartColumnBulanan') }}",
+            data : {tanggal:tanggal},
+            success: function(response){
+                chartColumnBulanan(response);
+            }
+        });
+    }
+    function chartColumnBulanan(response){
+        Highcharts.chart('chart-column-bulanan', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Jumlah Barang Tiap Bulanan',
+                align: 'center'
+            },
+            xAxis: {
+                categories: response.category,
+                crosshair: true,
+                accessibility: {
+                    description: 'Countries'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Jumlah dan Berat'
+                }
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [
+                {
+                    name: 'Barang Masuk',
+                    data: response.barang_masuk
+                },
+                {
+                    name: 'Barang Keluar',
+                    data: response.barang_keluar
+                },
+                {
+                    name: 'Barang Di Gudang',
+                    data: response.barang_gudang
+                }
+            ]
+        });
+
+    }
+    
     
     function defaultchartPie(){
         var tahun = $('#tahun').val();
@@ -111,13 +244,13 @@
             url: "{{ route('dashboard.chartPie') }}",
             data : {tahun:tahun},
             success: function(response){
+                console.log(response);
                 chartPie(response);
             }
         });
     }
-
     function chartPie(response){
-        Highcharts.chart('chart-pie', {
+        Highcharts.chart('chart-pie-bulanan', {
             chart: {
                 type: 'pie',
                 options3d: {
@@ -126,7 +259,7 @@
                 }
             },
             title: {
-                text: 'Persentase Penjualan Produk Tahun '+response.tahun,
+                text: 'Persentase Jumlah dan Berat',
                 align: 'center'
             },
             plotOptions: {
@@ -141,63 +274,6 @@
             series: [{
                 name: 'Persentase (%)',
                 data: response.series
-            }]
-        });
-    }
-
-    function defaultChartColumn(){
-        var tahun = $('#tahun').val();
-        $.ajax({
-            type: 'GET',
-            url: "{{ route('dashboard.chartColumn') }}",
-            data : {tahun:tahun},
-            success: function(response){
-                chartColumn(response);
-            }
-        });
-    }
-    function chartColumn(response){
-        Highcharts.chart('chart-column',{
-            chart: {
-                type: 'column',
-                options3d: {
-                    enabled: true,
-                    alpha: 15,
-                    beta: 15,
-                    depth: 50,
-                    viewDistance: 25
-                }
-            },
-            xAxis: {
-                categories: response.category
-            },
-            yAxis: {
-                title: {
-                    enabled: false
-                }
-            },
-            tooltip: {
-                headerFormat: '<b>{point.key}</b><br>',
-                pointFormat: 'Jumlah: {point.y}'
-            },
-            title: {
-                text: 'Jumlah Penjualan Produk Tahun '+response.tahun,
-                align: 'center'
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                column: {
-                    depth: 25
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                data: response.series,
-                colorByPoint: true
             }]
         });
     }

@@ -22,6 +22,12 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $guarded = [];
 
+    const ADMIN = 1;
+    const USER_GATE_IN = 2;
+    const USER_GATE_OUT = 3;
+    const USER_STOK = 4;
+    const USER_BILLING = 5;
+
     /**
      * The attributes that should be hidden for serialization.
      *

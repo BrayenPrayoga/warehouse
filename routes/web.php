@@ -36,7 +36,8 @@ Route::post('update-password', [AuthController::class,'updatePassword'])->name('
 
 Route::group(['prefix'=>'dashboard','as'=>'dashboard.'], function(){
     Route::get('/', [DashboardController::class,'index'])->name('index');
-    Route::get('chart-column', [DashboardController::class,'chartColumn'])->name('chartColumn');
+    Route::get('chart-column-harian', [DashboardController::class,'chartColumnHarian'])->name('chartColumnHarian');
+    Route::get('chart-column-bulanan', [DashboardController::class,'chartColumnBulanan'])->name('chartColumnBulanan');
     Route::get('chart-pie', [DashboardController::class,'chartPie'])->name('chartPie');
 });
 
@@ -114,7 +115,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
 });
 
-Route::middleware(['auth:user'])->group(function () {
+Route::middleware(['auth:user_gate_in'])->group(function () {
     // Profil
     Route::group(['prefix'=>'user/profil','as'=>'user.profil.'], function(){
         Route::get('/', [ProfilController::class,'index'])->name('index');
@@ -127,10 +128,60 @@ Route::middleware(['auth:user'])->group(function () {
         Route::get('check-barang', [BarangMasukController::class,'checkBarang'])->name('checkBarang');
         Route::post('update', [BarangMasukController::class,'update'])->name('update');
     });
+});
+
+Route::middleware(['auth:user_gate_out'])->group(function () {
+    // Profil
+    Route::group(['prefix'=>'user/profil','as'=>'user.profil.'], function(){
+        Route::get('/', [ProfilController::class,'index'])->name('index');
+        Route::post('update', [ProfilController::class,'update'])->name('update');
+    });
 
     // Barang Keluar
     Route::group(['prefix'=>'user/barang-keluar','as'=>'user.barang-keluar.'], function(){
         Route::get('/', [BarangKeluarController::class,'index'])->name('index');
         Route::get('check-barang', [BarangKeluarController::class,'checkBarang'])->name('checkBarang');
     });
+});
+
+Route::middleware(['auth:user_stok'])->group(function () {
+    // Profil
+    Route::group(['prefix'=>'user/profil','as'=>'user.profil.'], function(){
+        Route::get('/', [ProfilController::class,'index'])->name('index');
+        Route::post('update', [ProfilController::class,'update'])->name('update');
+    });
+    
+    // Daftar Barang Masuk
+    Route::group(['prefix'=>'daftar-barang-masuk','as'=>'daftar-barang-masuk.'], function(){
+        Route::get('/', [BarangController::class,'index'])->name('index');
+        Route::post('store', [BarangController::class,'store'])->name('store');
+        Route::post('update', [BarangController::class,'update'])->name('update');
+        Route::get('delete/{id}', [BarangController::class,'delete'])->name('delete');
+        Route::post('import', [BarangController::class,'import'])->name('import');
+    });
+    
+    // Daftar Barang Keluar
+    Route::group(['prefix'=>'daftar-barang-keluar','as'=>'daftar-barang-keluar.'], function(){
+        Route::get('/', [DaftarBarangKeluarController::class,'index'])->name('index');
+        Route::get('get-data-barang', [DaftarBarangKeluarController::class,'getDataBarang'])->name('getDataBarang');
+        Route::post('store', [DaftarBarangKeluarController::class,'store'])->name('store');
+        Route::get('delete/{id_barang}', [DaftarBarangKeluarController::class,'delete'])->name('delete');
+        Route::post('import', [DaftarBarangKeluarController::class,'import'])->name('import');
+    });
+    
+});
+
+Route::middleware(['auth:user_billing'])->group(function () {
+    // Profil
+    Route::group(['prefix'=>'user/profil','as'=>'user.profil.'], function(){
+        Route::get('/', [ProfilController::class,'index'])->name('index');
+        Route::post('update', [ProfilController::class,'update'])->name('update');
+    });
+    
+    // Sewa Barang
+    Route::group(['prefix'=>'sewa-barang','as'=>'sewa-barang.'], function(){
+        Route::get('/', [SewaBarangController::class,'index'])->name('index');
+        Route::get('cetak-invoice/{id_barang}', [SewaBarangController::class,'cetakInvoice'])->name('cetak.invoice');
+    });
+
 });

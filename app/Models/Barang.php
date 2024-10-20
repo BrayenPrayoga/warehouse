@@ -11,6 +11,11 @@ class Barang extends Model
     use HasFactory;
 
     protected $table = 'tabel_barang';
+
+    const DAFTAR_BARANG_MASUK = NULL; 
+    const BARANG_MASUK = 1; 
+    const DAFTAR_BARANG_KELUAR = 2; 
+    const BARANG_KELUAR = 3; 
     
     protected $guarded = [];
     

@@ -16,9 +16,15 @@ class AuthController extends Controller
             'password'=>'required'
         ]);
         
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 2])) { // admin
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1])) { // admin
             return redirect()->intended('/dashboard');
-        }else if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1])) { // pengguna
+        }else if (Auth::guard('user_gate_in')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 2])) { // user gate in
+            return redirect()->intended('/dashboard');
+        }else if (Auth::guard('user_gate_out')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 3])) { // user gate out
+            return redirect()->intended('/dashboard');
+        }else if (Auth::guard('user_stok')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 4])) { // user stok
+            return redirect()->intended('/dashboard');
+        }else if (Auth::guard('user_billing')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 5])) { // user nilling
             return redirect()->intended('/dashboard');
         } else {
             $request->session()->flash('error', 'Gagal Login, SIlahkan Periksa Email dan Password Anda!');
@@ -30,8 +36,8 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        if (Auth::guard('user')->check()) {
-            Auth::guard('user')->logout();
+        if (Auth::guard('user_gate_in')->check()) {
+            Auth::guard('user_gate_in')->logout();
         } elseif (Auth::guard('admin')->check()) {
             Auth::guard('admin')->logout();
         } elseif (Auth::guard('web')->check()) {

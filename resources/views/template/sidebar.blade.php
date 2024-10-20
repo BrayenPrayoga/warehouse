@@ -2,17 +2,28 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item nav-profile">
-            <a @if(Auth::guard('user')->check()) href="{{ route('user.profil.index') }}" @else href="{{ route('admin.profil.index') }}" @endif class="nav-link">
+            <a
+            @if(Auth::guard('admin')->check())
+                href="{{ route('admin.profil.index') }}"
+            @else
+                href="{{ route('user.profil.index') }}"
+            @endif class="nav-link">
                 <div class="nav-profile-image">
                     <img src="{{ asset('assets/images/faces/person.jpg') }}" alt="profile">
                     <span class="login-status online"></span>
                     <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
-                    @if(Auth::guard('user')->check())
-                    <span class="font-weight-bold mb-2">{{ Auth::guard('user')->user()->name }}</span>
-                    @else
-                    <span class="font-weight-bold mb-2">{{ Auth::guard('admin')->user()->name }}</span>
+                    @if(Auth::guard('admin')->check())
+                        <span class="font-weight-bold mb-2">{{ Auth::guard('admin')->user()->name }}</span>
+                    @elseif(Auth::guard('user_gate_in')->check())
+                    <span class="font-weight-bold mb-2">{{ Auth::guard('user_gate_in')->user()->name }}</span>
+                    @elseif(Auth::guard('user_gate_out')->check())
+                    <span class="font-weight-bold mb-2">{{ Auth::guard('user_gate_out')->user()->name }}</span>
+                    @elseif(Auth::guard('user_stok')->check())
+                    <span class="font-weight-bold mb-2">{{ Auth::guard('user_stok')->user()->name }}</span>
+                    @elseif(Auth::guard('user_billing')->check())
+                    <span class="font-weight-bold mb-2">{{ Auth::guard('user_billing')->user()->name }}</span>
                     @endif
                     <span class="text-secondary text-small">Administrator</span>
                 </div>
@@ -81,7 +92,7 @@
                 </a>
             </li>
         @endif
-        @if(Auth::guard('user')->check())
+        @if(Auth::guard('user_gate_in')->check())
             <li class="nav-item @if(Request::segment(1) == 'dashboard') active @endif">
                 <a class="nav-link" href="{{ route('dashboard.index') }}">
                     <span class="menu-title">Dashboard</span>
@@ -94,10 +105,52 @@
                     <i class="mdi mdi-cube-send menu-icon"></i>
                 </a>
             </li>
+        @endif
+        @if(Auth::guard('user_gate_out')->check())
+            <li class="nav-item @if(Request::segment(1) == 'dashboard') active @endif">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <span class="menu-title">Dashboard</span>
+                    <i class="mdi mdi-home menu-icon"></i>
+                </a>
+            </li>
             <li class="nav-item @if(request()->is('user/barang-keluar')) active @endif">
                 <a class="nav-link" href="{{ route('user.barang-keluar.index') }}">
                     <span class="menu-title">Barang Keluar</span>
                     <i class="mdi mdi-cube-send menu-icon"></i>
+                </a>
+            </li>
+        @endif
+        @if(Auth::guard('user_stok')->check())
+            <li class="nav-item @if(Request::segment(1) == 'dashboard') active @endif">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <span class="menu-title">Dashboard</span>
+                    <i class="mdi mdi-home menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item {{ (request()->is('daftar-barang-masuk')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('daftar-barang-masuk.index') }}">
+                    <span class="menu-title">Daftar Barang Masuk</span>
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item @if(request()->is('daftar-barang-keluar')) active @endif">
+                <a class="nav-link" href="{{ route('daftar-barang-keluar.index') }}">
+                    <span class="menu-title">Daftar Barang Keluar</span>
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                </a>
+            </li>
+        @endif
+        @if(Auth::guard('user_billing')->check())
+            <li class="nav-item @if(Request::segment(1) == 'dashboard') active @endif">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <span class="menu-title">Dashboard</span>
+                    <i class="mdi mdi-home menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item @if(request()->is('sewa-barang')) active @endif">
+                <a class="nav-link" href="{{ route('sewa-barang.index') }}">
+                    <span class="menu-title">Sewa Barang</span>
+                    <i class="mdi mdi-cash-multiple menu-icon"></i>
                 </a>
             </li>
         @endif

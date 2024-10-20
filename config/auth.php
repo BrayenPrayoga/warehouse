@@ -44,7 +44,19 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'user' => [
+        'user_gate_in' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'user_gate_out' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'user_stok' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'user_billing' => [
             'driver' => 'session',
             'provider' => 'users',
         ],

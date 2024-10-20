@@ -11,17 +11,23 @@
         </button>
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile">
-                <a class="nav-link" id="profileDropdown" @if(Auth::guard('user')->check()) href="{{ route('user.profil.index') }}" @else href="{{ route('admin.profil.index') }}" @endif
+                <a class="nav-link" id="profileDropdown" @if(Auth::guard('user_gate_in')->check()) href="{{ route('user.profil.index') }}" @else href="{{ route('admin.profil.index') }}" @endif
                     aria-expanded="false">
                     <div class="nav-profile-img">
                         <img src="{{ asset('assets/images/faces/person.jpg') }}" alt="image">
                         <span class="availability-status online"></span>
                     </div>
                     <div class="nav-profile-text">
-                        @if(Auth::guard('user')->check())
-                        <p class="mb-1 text-black">{{ Auth::guard('user')->user()->name }}</p>
-                        @else
-                        <p class="mb-1 text-black">{{ Auth::guard('admin')->user()->name }}</p>
+                        @if(Auth::guard('admin')->check())
+                            <p class="mb-1 text-black">{{ Auth::guard('admin')->user()->name }}</p>
+                        @elseif(Auth::guard('user_gate_in')->check())
+                            <p class="mb-1 text-black">{{ Auth::guard('user_gate_in')->user()->name }}</p>
+                        @elseif(Auth::guard('user_gate_out')->check())
+                            <p class="mb-1 text-black">{{ Auth::guard('user_gate_out')->user()->name }}</p>
+                        @elseif(Auth::guard('user_stok')->check())
+                            <p class="mb-1 text-black">{{ Auth::guard('user_stok')->user()->name }}</p>
+                        @elseif(Auth::guard('user_billing')->check())
+                            <p class="mb-1 text-black">{{ Auth::guard('user_billing')->user()->name }}</p>
                         @endif
                     </div>
                 </a>
