@@ -73,7 +73,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     
     // Daftar Barang Masuk
-    Route::group(['prefix'=>'daftar-barang-masuk','as'=>'daftar-barang-masuk.'], function(){
+    Route::group(['prefix'=>'admin/daftar-barang-masuk','as'=>'admin.daftar-barang-masuk.'], function(){
         Route::get('/', [BarangController::class,'index'])->name('index');
         Route::post('store', [BarangController::class,'store'])->name('store');
         Route::post('update', [BarangController::class,'update'])->name('update');
@@ -94,7 +94,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
 
     // Daftar Barang Keluar
-    Route::group(['prefix'=>'daftar-barang-keluar','as'=>'daftar-barang-keluar.'], function(){
+    Route::group(['prefix'=>'admin/daftar-barang-keluar','as'=>'admin.daftar-barang-keluar.'], function(){
         Route::get('/', [DaftarBarangKeluarController::class,'index'])->name('index');
         Route::get('get-data-barang', [DaftarBarangKeluarController::class,'getDataBarang'])->name('getDataBarang');
         Route::post('store', [DaftarBarangKeluarController::class,'store'])->name('store');
@@ -109,7 +109,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     
     // Sewa Barang
-    Route::group(['prefix'=>'sewa-barang','as'=>'sewa-barang.'], function(){
+    Route::group(['prefix'=>'admin/sewa-barang','as'=>'admin.sewa-barang.'], function(){
         Route::get('/', [SewaBarangController::class,'index'])->name('index');
         Route::get('cetak-invoice/{id_barang}', [SewaBarangController::class,'cetakInvoice'])->name('cetak.invoice');
     });
@@ -152,7 +152,7 @@ Route::middleware(['auth:user_stok'])->group(function () {
     });
     
     // Daftar Barang Masuk
-    Route::group(['prefix'=>'daftar-barang-masuk','as'=>'daftar-barang-masuk.'], function(){
+    Route::group(['prefix'=>'user/daftar-barang-masuk','as'=>'user.daftar-barang-masuk.'], function(){
         Route::get('/', [BarangController::class,'index'])->name('index');
         Route::post('store', [BarangController::class,'store'])->name('store');
         Route::post('update', [BarangController::class,'update'])->name('update');
@@ -161,7 +161,7 @@ Route::middleware(['auth:user_stok'])->group(function () {
     });
     
     // Daftar Barang Keluar
-    Route::group(['prefix'=>'daftar-barang-keluar','as'=>'daftar-barang-keluar.'], function(){
+    Route::group(['prefix'=>'user/daftar-barang-keluar','as'=>'user.daftar-barang-keluar.'], function(){
         Route::get('/', [DaftarBarangKeluarController::class,'index'])->name('index');
         Route::get('get-data-barang', [DaftarBarangKeluarController::class,'getDataBarang'])->name('getDataBarang');
         Route::post('store', [DaftarBarangKeluarController::class,'store'])->name('store');
@@ -179,7 +179,7 @@ Route::middleware(['auth:user_billing'])->group(function () {
     });
     
     // Sewa Barang
-    Route::group(['prefix'=>'sewa-barang','as'=>'sewa-barang.'], function(){
+    Route::group(['prefix'=>'user/sewa-barang','as'=>'user.sewa-barang.'], function(){
         Route::get('/', [SewaBarangController::class,'index'])->name('index');
         Route::get('cetak-invoice/{id_barang}', [SewaBarangController::class,'cetakInvoice'])->name('cetak.invoice');
     });

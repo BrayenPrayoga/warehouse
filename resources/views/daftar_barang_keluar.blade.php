@@ -82,7 +82,11 @@
                     <h5 class="modal-title" id="TambahModalLabel">Tambah Daftar Barang Keluar</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('daftar-barang-keluar.store') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.daftar-barang-keluar.store') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('user.daftar-barang-keluar.store') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="id_barang" name="id_barang" value="">
@@ -142,7 +146,11 @@
                     <h5 class="modal-title" id="ImportModalLabel">Import Barang Keluar</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('daftar-barang-keluar.import') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.daftar-barang-keluar.import') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('user.daftar-barang-keluar.import') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="status" name="status" value="0">
@@ -176,9 +184,15 @@
     function setDataBarang(){
         var kode_barang= $('#kode_barang').val();
         
+        @if(Auth::guard('admin')->check())
+        var url = "{{ route('admin.daftar-barang-keluar.getDataBarang') }}";
+        @else
+        var url = "{{ route('user.daftar-barang-keluar.getDataBarang') }}";
+        @endif
+        
         $.ajax({
             type: 'GET',
-            url: "{{ route('daftar-barang-keluar.getDataBarang') }}",
+            url: url,
             data : {kode_barang:kode_barang},
             success: function(response){
                 console.log(response);

@@ -95,7 +95,11 @@
                     <h5 class="modal-title" id="TambahModalLabel">Tambah Daftar Barang Masuk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('daftar-barang-masuk.store') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.daftar-barang-masuk.store') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('user.daftar-barang-masuk.store') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="status" name="status" value="0">
@@ -145,7 +149,11 @@
                     <h5 class="modal-title" id="EditModalLabel">Edit Bank</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('daftar-barang-masuk.update') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.daftar-barang-masuk.update') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('user.daftar-barang-masuk.update') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="e_id" name="id">
@@ -195,7 +203,11 @@
                     <h5 class="modal-title" id="ImportModalLabel">Import Barang Masuk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('daftar-barang-masuk.import') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.daftar-barang-masuk.import') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('user.daftar-barang-masuk.import') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="status" name="status" value="0">

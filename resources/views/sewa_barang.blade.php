@@ -51,7 +51,11 @@
                                         <td> {{ number_format($item->berat,2,',','.') }} </td>
                                         <td> {{ number_format($item->biaya,2,',','.') }} </td>
                                         <td>
-                                            <a href="{{ route('sewa-barang.cetak.invoice',[base64_encode($item->id)]) }}" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
+                                            @if(Auth::guard('admin')->check())
+                                            <a href="{{ route('admin.sewa-barang.cetak.invoice',[base64_encode($item->id)]) }}" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
+                                            @else
+                                            <a href="{{ route('user.sewa-barang.cetak.invoice',[base64_encode($item->id)]) }}" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

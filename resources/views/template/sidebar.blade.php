@@ -55,8 +55,8 @@
                     <i class="mdi mdi-grid menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item {{ (request()->is('daftar-barang-masuk')) ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('daftar-barang-masuk.index') }}">
+            <li class="nav-item {{ (request()->is('admin/daftar-barang-masuk')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.daftar-barang-masuk.index') }}">
                     <span class="menu-title">Daftar Barang Masuk</span>
                     <i class="mdi mdi-cube-outline menu-icon"></i>
                 </a>
@@ -73,8 +73,8 @@
                     <i class="mdi mdi-cube-send menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item @if(request()->is('daftar-barang-keluar')) active @endif">
-                <a class="nav-link" href="{{ route('daftar-barang-keluar.index') }}">
+            <li class="nav-item @if(request()->is('admin/daftar-barang-keluar')) active @endif">
+                <a class="nav-link" href="{{ route('admin.daftar-barang-keluar.index') }}">
                     <span class="menu-title">Daftar Barang Keluar</span>
                     <i class="mdi mdi-cube-outline menu-icon"></i>
                 </a>
@@ -85,8 +85,8 @@
                     <i class="mdi mdi-cube-send menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item @if(request()->is('sewa-barang')) active @endif">
-                <a class="nav-link" href="{{ route('sewa-barang.index') }}">
+            <li class="nav-item @if(request()->is('admin/sewa-barang')) active @endif">
+                <a class="nav-link" href="{{ route('admin.sewa-barang.index') }}">
                     <span class="menu-title">Sewa Barang</span>
                     <i class="mdi mdi-cash-multiple menu-icon"></i>
                 </a>
@@ -127,14 +127,14 @@
                     <i class="mdi mdi-home menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item {{ (request()->is('daftar-barang-masuk')) ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('daftar-barang-masuk.index') }}">
+            <li class="nav-item {{ (request()->is('user/daftar-barang-masuk')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('user.daftar-barang-masuk.index') }}">
                     <span class="menu-title">Daftar Barang Masuk</span>
                     <i class="mdi mdi-cube-outline menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item @if(request()->is('daftar-barang-keluar')) active @endif">
-                <a class="nav-link" href="{{ route('daftar-barang-keluar.index') }}">
+            <li class="nav-item @if(request()->is('user/daftar-barang-keluar')) active @endif">
+                <a class="nav-link" href="{{ route('user.daftar-barang-keluar.index') }}">
                     <span class="menu-title">Daftar Barang Keluar</span>
                     <i class="mdi mdi-cube-outline menu-icon"></i>
                 </a>
@@ -147,8 +147,8 @@
                     <i class="mdi mdi-home menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item @if(request()->is('sewa-barang')) active @endif">
-                <a class="nav-link" href="{{ route('sewa-barang.index') }}">
+            <li class="nav-item @if(request()->is('user/sewa-barang')) active @endif">
+                <a class="nav-link" href="{{ route('user.sewa-barang.index') }}">
                     <span class="menu-title">Sewa Barang</span>
                     <i class="mdi mdi-cash-multiple menu-icon"></i>
                 </a>
