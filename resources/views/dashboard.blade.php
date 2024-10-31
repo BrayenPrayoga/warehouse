@@ -121,6 +121,7 @@
             url: "{{ route('dashboard.chartColumnHarian') }}",
             data : {tanggal:tanggal},
             success: function(response){
+                console.log(response);
                 chartColumnHarian(response);
             }
         });

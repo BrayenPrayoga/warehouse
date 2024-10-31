@@ -29,19 +29,17 @@ class DashboardController extends Controller
         $tanggal = ($_GET['tanggal']) ? $_GET['tanggal'] : date('Y-m-d');
     
         $barang_masuk = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_masuk','tabel_proses_masuk.id_barang','tabel_barang.id')
-                    ->where('status', 1)->whereDate('tabel_proses_masuk.tanggal_masuk', $tanggal)->get();
+                    ->whereIn('status', [1,2,3])->whereDate('tabel_proses_masuk.tanggal_masuk', $tanggal)->get();
         $barang_keluar = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_keluar','tabel_proses_keluar.id_barang','tabel_barang.id')
                     ->where('status', 3)->whereDate('tabel_proses_keluar.tanggal_keluar', $tanggal)->get();
-        $barang_gudang = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))
-                    ->where('status', NULL)->whereDate('created_at', $tanggal)->get();
 
         $jumlah_barang_masuk = (count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0;
         $jumlah_barang_keluar = (count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0;
-        $jumlah_barang_gudang = (count($barang_gudang)!=0) ? $barang_gudang[0]->jumlah : 0;
+        $jumlah_barang_gudang = $jumlah_barang_masuk - $jumlah_barang_keluar;
         
         $berat_barang_masuk = (count($barang_masuk)!=0) ? (float)$barang_masuk[0]->berat : 0;
         $berat_barang_keluar = (count($barang_keluar)!=0) ? (float)$barang_keluar[0]->berat : 0;
-        $berat_barang_gudang = (count($barang_gudang)!=0) ? (float)$barang_gudang[0]->berat : 0;
+        $berat_barang_gudang = $berat_barang_masuk - $berat_barang_keluar;
 
         $jumlah = [$jumlah_barang_masuk, $jumlah_barang_keluar, $jumlah_barang_gudang];
         $berat = [$berat_barang_masuk, $berat_barang_keluar, $berat_barang_gudang];
@@ -79,15 +77,13 @@ class DashboardController extends Controller
 
         foreach($bulan as $key=>$item){
             $barang_masuk = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_masuk','tabel_proses_masuk.id_barang','tabel_barang.id')
-                    ->where('status', 1)->whereMonth('tabel_barang.created_at', $key)->get();
+                    ->whereIn('status', [1,2,3])->whereMonth('tabel_barang.created_at', $key)->get();
             $barang_keluar = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_keluar','tabel_proses_keluar.id_barang','tabel_barang.id')
                     ->where('status', 3)->whereMonth('tabel_barang.created_at', $key)->get();
-            $barang_gudang = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))
-                    ->where('status', NULL)->whereMonth('created_at', $key)->get();
 
             $data_barang_masuk[] = (count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0;
             $data_barang_keluar[] = (count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0;
-            $data_barang_gudang[] = (count($barang_gudang)!=0) ? $barang_gudang[0]->jumlah : 0;
+            $data_barang_gudang[] = ((count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0) - ((count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0);
 
         }
         $jumlah_barang_masuk = $data_barang_masuk;
@@ -104,18 +100,16 @@ class DashboardController extends Controller
     
     public function chartPie(){
         $series = [];
-        $count_barang = Barang::whereIn('status',[1,3])->orWhereNull('status')->count();
+        $count_barang = Barang::whereIn('status',[1,2,3])->orWhereNull('status')->count();
         
         $barang_masuk = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_masuk','tabel_proses_masuk.id_barang','tabel_barang.id')
-                ->where('status', 1)->get();
+                ->whereIn('status', [1,2,3])->get();
         $barang_keluar = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))->join('tabel_proses_keluar','tabel_proses_keluar.id_barang','tabel_barang.id')
                 ->where('status', 3)->get();
-        $barang_gudang = Barang::select(DB::raw('COUNT(*) as jumlah'), DB::raw('SUM(berat) as berat'))
-                ->where('status', NULL)->get();
 
         $data_barang_masuk = (count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0;
         $data_barang_keluar = (count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0;
-        $data_barang_gudang = (count($barang_gudang)!=0) ? $barang_gudang[0]->jumlah : 0;
+        $data_barang_gudang = ((count($barang_masuk)!=0) ? $barang_masuk[0]->jumlah : 0) - ((count($barang_keluar)!=0) ? $barang_keluar[0]->jumlah : 0);
         $jumlah_seluruh = $data_barang_masuk + $data_barang_keluar + $data_barang_gudang;
 
         if($count_barang != 0){
