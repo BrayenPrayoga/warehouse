@@ -22,7 +22,7 @@ class importBarangKeluar implements ToModel, WithStartRow
         date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
         $kategori = MasterKategori::whereRaw('LOWER(kategori) = ?', [strtolower($row[3])])->first();
-        $barang = Barang::where('kode_barang', $row[1])->where('status', 1)->whereNotNull('id_rak')->first();
+        $barang = Barang::where('kode_barang', $row[1])->where('status', 1)->first();
 
         if(!empty($barang) && !empty($row[1])){
             return Barang::updateOrCreate(

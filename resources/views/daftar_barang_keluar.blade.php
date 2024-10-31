@@ -35,6 +35,9 @@
                             <button type="button" class="btn btn-sm btn-primary btn-fw" data-bs-toggle="modal" data-bs-target="#ImportModal">
                                 <i class="mdi mdi-plus"></i>Import
                             </button>
+                            <button type="button" class="btn btn-sm btn-dark btn-fw" onclick="exportTableToExcel()">
+                                <i class="mdi mdi-file-excel"></i>
+                            </button>
                             <table class="table" id="table-id">
                                 <thead>
                                     <tr>
@@ -170,6 +173,7 @@
 @endsection
 
 @section('javascript')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
     $(document).ready( function () {
         $('#table-id').DataTable();
@@ -189,7 +193,7 @@
         @else
         var url = "{{ route('user.daftar-barang-keluar.getDataBarang') }}";
         @endif
-        
+        console.log(kode_barang);
         $.ajax({
             type: 'GET',
             url: url,
@@ -236,6 +240,24 @@
                 });
             }
         });
+    }
+    
+    function exportTableToExcel() {
+        var table = document.getElementById("table-id");
+
+        // Buat salinan tabel tanpa kolom terakhir
+        var tempTable = table.cloneNode(true);
+        var rows = tempTable.rows;
+
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].deleteCell(-1); // Hapus kolom terakhir di setiap baris
+        }
+
+        // Buat workbook dan worksheet dari salinan tabel
+        var wb = XLSX.utils.table_to_book(tempTable, { sheet: "Sheet1" });
+
+        // Ekspor workbook ke file Excel
+        XLSX.writeFile(wb, "data-barang-keluar.xlsx");
     }
 </script>
 

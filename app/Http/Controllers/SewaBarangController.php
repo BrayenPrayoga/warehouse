@@ -22,7 +22,7 @@ class SewaBarangController extends Controller
                         ->join('tabel_proses_keluar','tabel_proses_keluar.id_barang','tabel_barang.id')
                         ->join('sewa_gudang','sewa_gudang.id_barang','tabel_barang.id')
                         ->where('status', 3)
-                        ->orderBy('tabel_barang.id','ASC')
+                        ->orderBy('tabel_barang.id','DESC')
                         ->get();
 
         return view('sewa_barang', $data);

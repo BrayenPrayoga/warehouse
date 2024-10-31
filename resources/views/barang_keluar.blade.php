@@ -109,14 +109,14 @@
                                 if(response.status == 0){
                                     Swal.fire({
                                         icon: "info",
-                                        title: "Barang Belum Masuk",
+                                        title: "Barang Belum Mendapatkan Izin Keluar",
                                         showConfirmButton: false,
                                         timer: 1500
                                     });
                                 }else if(response.status == 1){
                                     Swal.fire({
                                         icon: "info",
-                                        title: "Barang Belum Keluar",
+                                        title: "Barang Belum Mendapatkan Izin Keluar",
                                         showConfirmButton: false,
                                         timer: 1500
                                     });

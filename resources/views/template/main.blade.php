@@ -48,6 +48,21 @@
     </div>
     @include('template.footer')
     @yield('javascript')
+    <script>
+        
+        function triggerLogout(){
+            Swal.fire({
+                icon: 'info',
+                title: "Apakah Yakin Ingin Logout?",
+                showCancelButton: true,
+                confirmButtonText: "LOGOUT",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('logout') }}";
+                    }
+            });
+        }
+    </script>
 </body>
 
 </html>

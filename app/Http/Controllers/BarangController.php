@@ -20,7 +20,7 @@ class BarangController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $data['no'] = 1;
-        $data['data'] = Barang::orderBy('id','ASC')->get();
+        $data['data'] = Barang::orderBy('id','DESC')->get();
         $data['kategori'] = MasterKategori::orderBy('id','ASC')->get();
         $date = date('Y-m-d');
         $date_kode = date('Ymd');

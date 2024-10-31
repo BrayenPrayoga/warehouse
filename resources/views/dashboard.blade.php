@@ -161,11 +161,11 @@
             },
             series: [
                 {
-                    name: 'Jumlah',
+                    name: 'Jumlah (pcs)',
                     data: response.jumlah
                 },
                 {
-                    name: 'Berat',
+                    name: 'Berat (Kg)',
                     data: response.berat
                 }
             ]
@@ -203,7 +203,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Jumlah dan Berat'
+                    text: 'Jumlah (pcs)'
                 }
             },
             tooltip: {
