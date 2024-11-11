@@ -20,7 +20,7 @@
         <table style='width:100%; font-size:8pt; font-family:calibri; border-collapse: collapse;' border='0'>
             <td width='100%' align='left' style='padding-right:80px; vertical-align:top'>
                 <span style='font-size:12pt'><b>Warehouse</b></span></br>
-                Alamat Toko Alamat Toko Alamat Toko Alamat Toko Alamat Toko Alamat Toko Alamat Toko Alamat Toko Alamat
+                Jalan Raya XYZ
                 Toko Alamat Toko </br>
                 <b>Telp</b> : 021-123456789
             </td>
