@@ -61,7 +61,7 @@
                                         <td> {{ $item->RelasiKategori->kategori }} </td>
                                         <td> {{ $item->nama_pemilik }} </td>
                                         <td> {{ $item->alamat }} </td>
-                                        <td> {{ number_format($item->berat,2,',','.') }} </td>
+                                        <td> {{ $item->berat }} </td>
                                         <td> {{ $item->tanggal_masuk }} </td>
                                     </tr>
                                     @endforeach
@@ -131,7 +131,7 @@
                                             val.relasi_kategori.kategori,
                                             val.nama_pemilik,
                                             val.alamat,
-                                            berat.replace('.',','),
+                                            val.berat,
                                             val.tanggal_masuk
                                         ]).draw();
                                     })

@@ -26,7 +26,7 @@
             </td>
             <td style='vertical-align:top' width='100%' align='left'>
                 <b><span style='font-size:12pt'>FAKTUR PENJUALAN</span></b></br>
-                <b>No Trans.</b> : 000</br>
+                <b>No Trans.</b> : INV.{{ date('Ymd') }}.{{ $barang->id }}</br>
                 <b>Tanggal</b> : {{ tgl_indo($date) }}</br>
             </td>
         </table>

@@ -36,7 +36,7 @@
                                 <i class="mdi mdi-plus"></i>Import
                             </button>
                             <button type="button" class="btn btn-sm btn-dark btn-fw" onclick="exportTableToExcel()">
-                                <i class="mdi mdi-file-excel"></i>
+                                <i class="mdi mdi-file-excel"></i>Export
                             </button>
                             <table class="table" id="table-id">
                                 <thead>
@@ -62,7 +62,7 @@
                                         <td> {{ $item->RelasiKategori->kategori }} </td>
                                         <td> {{ $item->nama_pemilik }} </td>
                                         <td> {{ $item->alamat }} </td>
-                                        <td> {{ number_format($item->berat,2,',','.') }} </td>
+                                        <td> {{ $item->berat }} </td>
                                         <td>
                                             <button type="button" onclick="hapus({{ $item->id_barang }})" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-delete"></i></button>
                                         </td>

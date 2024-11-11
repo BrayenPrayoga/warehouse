@@ -113,9 +113,9 @@ class DashboardController extends Controller
         $jumlah_seluruh = $data_barang_masuk + $data_barang_keluar + $data_barang_gudang;
 
         if($count_barang != 0){
-            $persentase_barang_masuk = $data_barang_masuk / $count_barang * 100;
-            $persentase_barang_keluar = $data_barang_keluar / $count_barang * 100;
-            $persentase_barang_gudang = $data_barang_gudang / $count_barang * 100;
+            $persentase_barang_masuk = ($data_barang_masuk / $count_barang * 100) / 2;
+            $persentase_barang_keluar = ($data_barang_keluar / $count_barang * 100) / 2;
+            $persentase_barang_gudang = ($data_barang_gudang / $count_barang * 100) / 2;
         }else{
             $persentase_barang_masuk = 0;
             $persentase_barang_keluar = 0;
