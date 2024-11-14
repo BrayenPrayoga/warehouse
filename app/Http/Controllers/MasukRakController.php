@@ -17,7 +17,7 @@ class MasukRakController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $data['no'] = 1;
-        $data['data'] = Barang::join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->whereNotNull('id_rak')->orderBy('tabel_barang.id','DESC')->get();
+        $data['data'] = Barang::join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->whereNotNull('id_rak')->orderBy('tabel_proses_masuk.tanggal_masuk','DESC')->get();
         $data['rak'] = MasterRak::orderBy('id','ASC')->get();
 
         return view('masuk_rak', $data);
@@ -39,7 +39,7 @@ class MasukRakController extends Controller
                     // Update Status Barang
                     Barang::where('kode_barang', $kode_barang)->update(['id_rak'=>$check_rak->id]);
 
-                    $barang = Barang::with('RelasiKategori','RelasiRak')->join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->whereNotNull('id_rak')->orderBy('tabel_barang.id','DESC')->get();
+                    $barang = Barang::with('RelasiKategori','RelasiRak')->join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->whereNotNull('id_rak')->orderBy('tabel_proses_masuk.tanggal_masuk','DESC')->get();
                     
                     return ([ 'status' => 1,'data' => $barang ]);
                 }elseif($check_barang->status == 2){

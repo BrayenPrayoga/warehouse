@@ -19,7 +19,7 @@ class BarangMasukController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $data['no'] = 1;
-        $data['data'] = Barang::join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->orderBy('tabel_barang.id','DESC')->get();
+        $data['data'] = Barang::join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->orderBy('tabel_proses_masuk.tanggal_masuk','DESC')->get();
         $data['rak'] = MasterRak::orderBy('id','ASC')->get();
 
         return view('barang_masuk', $data);
@@ -43,7 +43,7 @@ class BarangMasukController extends Controller
                         'created_at'    => date('Y-m-d H:i:s')
                     ]);
 
-                $barang = Barang::with('RelasiKategori','RelasiRak')->join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->orderBy('tabel_barang.id','DESC')->get();
+                $barang = Barang::with('RelasiKategori','RelasiRak')->join('tabel_proses_masuk','id_barang','tabel_barang.id')->where('status', 1)->orderBy('tabel_proses_masuk.tanggal_masuk','DESC')->get();
                 return ([ 'status' => 0,'data' => $barang ]);
             }elseif($check_barang->status == 1){
                 return ([ 'status' => 1,'data' => '' ]);

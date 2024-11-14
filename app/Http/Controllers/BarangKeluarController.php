@@ -21,7 +21,7 @@ class BarangKeluarController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $data['no'] = 1;
-        $data['data'] = Barang::with('RelasiKategori')->join('tabel_proses_keluar','id_barang','tabel_barang.id')->where('status', 3)->orderBy('tabel_barang.id','DESC')->get();
+        $data['data'] = Barang::with('RelasiKategori')->join('tabel_proses_keluar','id_barang','tabel_barang.id')->where('status', 3)->orderBy('tabel_proses_keluar.tanggal_keluar','DESC')->get();
 
         return view('barang_keluar', $data);
     }
@@ -67,7 +67,7 @@ class BarangKeluarController extends Controller
                         'created_at'        => date('Y-m-d H:i:s')
                     ]);
 
-                $barang = Barang::with('RelasiKategori')->join('tabel_proses_keluar','id_barang','tabel_barang.id')->where('status', 3)->orderBy('tabel_barang.id','DESC')->get();
+                $barang = Barang::with('RelasiKategori')->join('tabel_proses_keluar','id_barang','tabel_barang.id')->where('status', 3)->orderBy('tabel_proses_keluar.tanggal_keluar','DESC')->get();
                 return ([ 'status' => 2,'data' => $barang ]);
             }elseif($check_barang->status == 3){
                 return ([ 'status' => 3,'data' => '' ]);
