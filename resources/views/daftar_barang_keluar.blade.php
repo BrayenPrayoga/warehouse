@@ -33,7 +33,7 @@
                                 <i class="mdi mdi-plus"></i>Tambah
                             </button>
                             <button type="button" class="btn btn-sm btn-primary btn-fw" data-bs-toggle="modal" data-bs-target="#ImportModal">
-                                <i class="mdi mdi-plus"></i>Import
+                                <i class="mdi mdi-upload"></i>Import
                             </button>
                             <button type="button" class="btn btn-sm btn-dark btn-fw" onclick="exportTableToExcel()">
                                 <i class="mdi mdi-file-excel"></i>Export
@@ -64,7 +64,7 @@
                                         <td> {{ $item->alamat }} </td>
                                         <td> {{ $item->berat }} </td>
                                         <td>
-                                            <button type="button" onclick="hapus({{ $item->id_barang }})" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-delete"></i></button>
+                                            <button type="button" onclick="hapus({{ $item->id }})" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-delete"></i></button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -87,6 +87,8 @@
                 </div>
                 @if(Auth::guard('admin')->check())
                 <form method="POST" action="{{ route('admin.daftar-barang-keluar.store') }}" enctype="multipart/form-data">
+                @elseif(Auth::guard('supervisor')->check())
+                <form method="POST" action="{{ route('supervisor.daftar-barang-keluar.store') }}" enctype="multipart/form-data">
                 @else
                 <form method="POST" action="{{ route('user.daftar-barang-keluar.store') }}" enctype="multipart/form-data">
                 @endif
@@ -151,6 +153,8 @@
                 </div>
                 @if(Auth::guard('admin')->check())
                 <form method="POST" action="{{ route('admin.daftar-barang-keluar.import') }}" enctype="multipart/form-data">
+                @elseif(Auth::guard('supervisor')->check())
+                <form method="POST" action="{{ route('supervisor.daftar-barang-keluar.import') }}" enctype="multipart/form-data">
                 @else
                 <form method="POST" action="{{ route('user.daftar-barang-keluar.import') }}" enctype="multipart/form-data">
                 @endif
@@ -190,10 +194,12 @@
         
         @if(Auth::guard('admin')->check())
         var url = "{{ route('admin.daftar-barang-keluar.getDataBarang') }}";
+        @elseif(Auth::guard('supervisor')->check())
+        var url = "{{ route('supervisor.daftar-barang-keluar.getDataBarang') }}";
         @else
         var url = "{{ route('user.daftar-barang-keluar.getDataBarang') }}";
         @endif
-        console.log(kode_barang);
+
         $.ajax({
             type: 'GET',
             url: url,
@@ -229,7 +235,14 @@
             confirmButtonText: "Yes, delete!"
         }).then((result) => {
             if(result.isConfirmed) {
-                window.location.href = "{{ url('daftar-barang-keluar/delete') }}/"+id_barang;
+                @if(Auth::guard('admin')->check())
+                var url = "{{ url('admin/daftar-barang-keluar/delete') }}/"+id_barang;
+                @elseif(Auth::guard('supervisor')->check())
+                var url = "{{ url('supervisor/daftar-barang-keluar/delete') }}/"+id_barang;
+                @else
+                var url = "{{ url('user/daftar-barang-keluar/delete') }}/"+id_barang;
+                @endif
+                window.location.href = url;
             }else{
                 Swal.fire({
                     title: "Batal!",

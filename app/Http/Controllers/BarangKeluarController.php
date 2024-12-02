@@ -27,6 +27,7 @@ class BarangKeluarController extends Controller
     }
 
     public function checkBarang(){
+        date_default_timezone_set('Asia/Jakarta');
         $kode_barang = $_GET['kode_barang'];
         $check_barang = Barang::where('kode_barang', $kode_barang)->first();
 

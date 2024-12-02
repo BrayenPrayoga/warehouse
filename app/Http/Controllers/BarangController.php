@@ -67,7 +67,7 @@ class BarangController extends Controller
     }
     
     public function delete($id){
-        $response = Barang::deleteModel($id);
+        $response = Barang::deleteModel($id,'masuk');
         
         if($response['message'] == 'success'){
             return redirect()->back()->with(['success'=>'Berhasil Hapus']);

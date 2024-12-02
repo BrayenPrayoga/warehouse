@@ -53,6 +53,8 @@
                                         <td>
                                             @if(Auth::guard('admin')->check())
                                             <a href="{{ route('admin.sewa-barang.cetak.invoice',[base64_encode($item->id)]) }}" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
+                                            @elseif(Auth::guard('supervisor')->check())
+                                            <a href="{{ route('supervisor.sewa-barang.cetak.invoice',[base64_encode($item->id)]) }}" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
                                             @else
                                             <a href="{{ route('user.sewa-barang.cetak.invoice',[base64_encode($item->id)]) }}" target="_blank" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-printer"></i></a>
                                             @endif

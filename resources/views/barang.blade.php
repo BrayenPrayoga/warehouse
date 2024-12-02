@@ -33,7 +33,10 @@
                                 <i class="mdi mdi-plus"></i>Tambah
                             </button>
                             <button type="button" class="btn btn-sm btn-primary btn-fw" data-bs-toggle="modal" data-bs-target="#ImportModal">
-                                <i class="mdi mdi-plus"></i>Import
+                                <i class="mdi mdi-upload"></i>Import
+                            </button>
+                            <button type="button" class="btn btn-sm btn-dark btn-fw" onclick="exportTableToExcel()">
+                                <i class="mdi mdi-file-excel"></i>Export
                             </button>
                             <table class="table" id="table-id">
                                 <thead>
@@ -97,6 +100,8 @@
                 </div>
                 @if(Auth::guard('admin')->check())
                 <form method="POST" action="{{ route('admin.daftar-barang-masuk.store') }}" enctype="multipart/form-data">
+                @elseif(Auth::guard('supervisor')->check())
+                <form method="POST" action="{{ route('supervisor.daftar-barang-masuk.store') }}" enctype="multipart/form-data">
                 @else
                 <form method="POST" action="{{ route('user.daftar-barang-masuk.store') }}" enctype="multipart/form-data">
                 @endif
@@ -151,6 +156,8 @@
                 </div>
                 @if(Auth::guard('admin')->check())
                 <form method="POST" action="{{ route('admin.daftar-barang-masuk.update') }}" enctype="multipart/form-data">
+                @elseif(Auth::guard('supervisor')->check())
+                <form method="POST" action="{{ route('supervisor.daftar-barang-masuk.update') }}" enctype="multipart/form-data">
                 @else
                 <form method="POST" action="{{ route('user.daftar-barang-masuk.update') }}" enctype="multipart/form-data">
                 @endif
@@ -205,6 +212,8 @@
                 </div>
                 @if(Auth::guard('admin')->check())
                 <form method="POST" action="{{ route('admin.daftar-barang-masuk.import') }}" enctype="multipart/form-data">
+                @elseif(Auth::guard('supervisor')->check())
+                <form method="POST" action="{{ route('supervisor.daftar-barang-masuk.import') }}" enctype="multipart/form-data">
                 @else
                 <form method="POST" action="{{ route('user.daftar-barang-masuk.import') }}" enctype="multipart/form-data">
                 @endif
@@ -227,6 +236,7 @@
 @endsection
 
 @section('javascript')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
     $(document).ready( function () {
         $('#table-id').DataTable();
@@ -258,7 +268,15 @@
             confirmButtonText: "Yes, delete!"
         }).then((result) => {
             if(result.isConfirmed) {
-                window.location.href = "{{ url('daftar-barang-masuk/delete') }}/"+id;
+                var url = '';
+                @if(Auth::guard('admin')->check())
+                    url = "{{ url('admin/daftar-barang-masuk/delete') }}/"+id;
+                @elseif(Auth::guard('supervisor')->check())
+                    url = "{{ url('supervisor/daftar-barang-masuk/delete') }}/"+id;
+                @else
+                    url = "{{ url('user/daftar-barang-masuk/delete') }}/"+id;
+                @endif
+                window.location.href = url;
             }else{
                 Swal.fire({
                     title: "Batal!",
@@ -269,6 +287,24 @@
                 });
             }
         });
+    }
+
+    function exportTableToExcel() {
+        var table = document.getElementById("table-id");
+
+        // Buat salinan tabel tanpa kolom terakhir
+        var tempTable = table.cloneNode(true);
+        var rows = tempTable.rows;
+
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].deleteCell(-1); // Hapus kolom terakhir di setiap baris
+        }
+
+        // Buat workbook dan worksheet dari salinan tabel
+        var wb = XLSX.utils.table_to_book(tempTable, { sheet: "Sheet1" });
+
+        // Ekspor workbook ke file Excel
+        XLSX.writeFile(wb, "data-barang-masuk.xlsx");
     }
 </script>
 

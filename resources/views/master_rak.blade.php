@@ -71,7 +71,11 @@
                     <h5 class="modal-title" id="TambahModalLabel">Tambah Rak</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('master-rak.store') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.master-rak.store') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('supervisor.master-rak.store') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -103,7 +107,11 @@
                     <h5 class="modal-title" id="EditModalLabel">Edit Rak</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('master-rak.update') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.master-rak.update') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('supervisor.master-rak.update') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="e_id" name="id">
@@ -158,7 +166,12 @@
             confirmButtonText: "Yes, delete!"
         }).then((result) => {
             if(result.isConfirmed) {
-                window.location.href = "{{ url('master-rak/delete') }}/"+id;
+                @if(Auth::guard('admin')->check())
+                var url = "{{ url('admin/master-rak/delete') }}/"+id;
+                @else
+                var url = "{{ url('supervisor/master-rak/delete') }}/"+id;
+                @endif
+                window.location.href = url;
             }else{
                 Swal.fire({
                     title: "Batal!",

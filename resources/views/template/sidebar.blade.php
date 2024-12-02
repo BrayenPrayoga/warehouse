@@ -5,6 +5,8 @@
             <a
             @if(Auth::guard('admin')->check())
                 href="{{ route('admin.profil.index') }}"
+            @elseif(Auth::guard('supervisor')->check())
+                href="{{ route('supervisor.profil.index') }}"
             @else
                 href="{{ route('user.profil.index') }}"
             @endif class="nav-link">
@@ -24,6 +26,8 @@
                     <span class="font-weight-bold mb-2">{{ Auth::guard('user_stok')->user()->name }}</span>
                     @elseif(Auth::guard('user_billing')->check())
                     <span class="font-weight-bold mb-2">{{ Auth::guard('user_billing')->user()->name }}</span>
+                    @elseif(Auth::guard('supervisor')->check())
+                    <span class="font-weight-bold mb-2">{{ Auth::guard('supervisor')->user()->name }}</span>
                     @endif
                     <span class="text-secondary text-small">Administrator</span>
                 </div>
@@ -37,20 +41,20 @@
                     <i class="mdi mdi-home menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item @if(Request::segment(1) == 'users') active @endif">
-                <a class="nav-link" href="{{ route('users.index') }}">
+            <li class="nav-item @if(Request::segment(1) == 'admin/users') active @endif">
+                <a class="nav-link" href="{{ route('admin.users.index') }}">
                     <span class="menu-title">Users</span>
                     <i class="mdi mdi-account menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item @if(Request::segment(1) == 'master-kategori') active @endif">
-                <a class="nav-link" href="{{ route('master-kategori.index') }}">
+            <li class="nav-item @if(Request::segment(1) == 'admin/master-kategori') active @endif">
+                <a class="nav-link" href="{{ route('admin.master-kategori.index') }}">
                     <span class="menu-title">Master Kategori</span>
                     <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
                 </a>
             </li>
-            <li class="nav-item @if(Request::segment(1) == 'master-rak') active @endif">
-                <a class="nav-link" href="{{ route('master-rak.index') }}">
+            <li class="nav-item @if(Request::segment(1) == 'admin/master-rak') active @endif">
+                <a class="nav-link" href="{{ route('admin.master-rak.index') }}">
                     <span class="menu-title">Master Rak</span>
                     <i class="mdi mdi-grid menu-icon"></i>
                 </a>
@@ -149,6 +153,62 @@
             </li>
             <li class="nav-item @if(request()->is('user/sewa-barang')) active @endif">
                 <a class="nav-link" href="{{ route('user.sewa-barang.index') }}">
+                    <span class="menu-title">Sewa Barang</span>
+                    <i class="mdi mdi-cash-multiple menu-icon"></i>
+                </a>
+            </li>
+        @endif
+        @if(Auth::guard('supervisor')->check())
+            <li class="nav-item @if(Request::segment(1) == 'dashboard') active @endif">
+                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                    <span class="menu-title">Dashboard</span>
+                    <i class="mdi mdi-home menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item {{ (request()->is('supervisor/master-kategori')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('supervisor.master-kategori.index') }}">
+                    <span class="menu-title">Master Kategori</span>
+                    <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item {{ (request()->is('supervisor/master-rak')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('supervisor.master-rak.index') }}">
+                    <span class="menu-title">Master Rak</span>
+                    <i class="mdi mdi-grid menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item {{ (request()->is('supervisor/daftar-barang-masuk')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('supervisor.daftar-barang-masuk.index') }}">
+                    <span class="menu-title">Daftar Barang Masuk</span>
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item {{ (request()->is('supervisor/barang-masuk')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('supervisor.barang-masuk.index') }}">
+                    <span class="menu-title">Barang Masuk</span>
+                    <i class="mdi mdi-cube-send menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item {{ (request()->is('supervisor/masuk-rak')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('supervisor.masuk-rak.index') }}">
+                    <span class="menu-title">Masuk Rak</span>
+                    <i class="mdi mdi-cube-send menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item @if(request()->is('supervisor/daftar-barang-keluar')) active @endif">
+                <a class="nav-link" href="{{ route('supervisor.daftar-barang-keluar.index') }}">
+                    <span class="menu-title">Daftar Barang Keluar</span>
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item @if(request()->is('supervisor/barang-keluar')) active @endif">
+                <a class="nav-link" href="{{ route('supervisor.barang-keluar.index') }}">
+                    <span class="menu-title">Barang Keluar</span>
+                    <i class="mdi mdi-cube-send menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item @if(request()->is('supervisor/sewa-barang')) active @endif">
+                <a class="nav-link" href="{{ route('supervisor.sewa-barang.index') }}">
                     <span class="menu-title">Sewa Barang</span>
                     <i class="mdi mdi-cash-multiple menu-icon"></i>
                 </a>

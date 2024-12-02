@@ -67,7 +67,11 @@
                     <h5 class="modal-title" id="TambahModalLabel">Tambah Kategori</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('master-kategori.store') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.master-kategori.store') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('supervisor.master-kategori.store') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -91,7 +95,11 @@
                     <h5 class="modal-title" id="EditModalLabel">Edit Kategori</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('master-kategori.update') }}" enctype="multipart/form-data">
+                @if(Auth::guard('admin')->check())
+                <form method="POST" action="{{ route('admin.master-kategori.update') }}" enctype="multipart/form-data">
+                @else
+                <form method="POST" action="{{ route('supervisor.master-kategori.update') }}" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="e_id" name="id">

@@ -52,6 +52,8 @@ class DashboardController extends Controller
     }
 
     public function chartColumnBulanan(){
+        date_default_timezone_set('Asia/Jakarta');
+
         $series = [];
         $category = [];
         $cat = [];
@@ -99,6 +101,8 @@ class DashboardController extends Controller
     }
     
     public function chartPie(){
+        date_default_timezone_set('Asia/Jakarta');
+        
         $series = [];
         $count_barang = Barang::whereIn('status',[1,2,3])->orWhereNull('status')->count();
         

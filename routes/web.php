@@ -49,7 +49,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
 
     // Master User
-    Route::group(['prefix'=>'users','as'=>'users.'], function(){
+    Route::group(['prefix'=>'admin/users','as'=>'admin.users.'], function(){
         Route::get('/', [UsersController::class,'index'])->name('index');
         Route::post('store', [UsersController::class,'store'])->name('store');
         Route::post('update', [UsersController::class,'update'])->name('update');
@@ -57,7 +57,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     
     // Master Kategori
-    Route::group(['prefix'=>'master-kategori','as'=>'master-kategori.'], function(){
+    Route::group(['prefix'=>'admin/master-kategori','as'=>'admin.master-kategori.'], function(){
         Route::get('/', [MasterKategoriController::class,'index'])->name('index');
         Route::post('store', [MasterKategoriController::class,'store'])->name('store');
         Route::post('update', [MasterKategoriController::class,'update'])->name('update');
@@ -65,7 +65,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
 
     // Master Rak
-    Route::group(['prefix'=>'master-rak','as'=>'master-rak.'], function(){
+    Route::group(['prefix'=>'admin/master-rak','as'=>'admin.master-rak.'], function(){
         Route::get('/', [MasterRakController::class,'index'])->name('index');
         Route::post('store', [MasterRakController::class,'store'])->name('store');
         Route::post('update', [MasterRakController::class,'update'])->name('update');
@@ -184,4 +184,70 @@ Route::middleware(['auth:user_billing'])->group(function () {
         Route::get('cetak-invoice/{id_barang}', [SewaBarangController::class,'cetakInvoice'])->name('cetak.invoice');
     });
 
+});
+
+Route::middleware(['auth:supervisor'])->group(function () {
+    // Profil
+    Route::group(['prefix'=>'supervisor/profil','as'=>'supervisor.profil.'], function(){
+        Route::get('/', [ProfilController::class,'index'])->name('index');
+        Route::post('update', [ProfilController::class,'update'])->name('update');
+    });
+    
+    // Master Kategori
+    Route::group(['prefix'=>'supervisor/master-kategori','as'=>'supervisor.master-kategori.'], function(){
+        Route::get('/', [MasterKategoriController::class,'index'])->name('index');
+        Route::post('store', [MasterKategoriController::class,'store'])->name('store');
+        Route::post('update', [MasterKategoriController::class,'update'])->name('update');
+        Route::get('delete/{id}', [MasterKategoriController::class,'delete'])->name('delete');
+    });
+
+    // Master Rak
+    Route::group(['prefix'=>'supervisor/master-rak','as'=>'supervisor.master-rak.'], function(){
+        Route::get('/', [MasterRakController::class,'index'])->name('index');
+        Route::post('store', [MasterRakController::class,'store'])->name('store');
+        Route::post('update', [MasterRakController::class,'update'])->name('update');
+        Route::get('delete/{id}', [MasterRakController::class,'delete'])->name('delete');
+    });
+    
+    // Daftar Barang Masuk
+    Route::group(['prefix'=>'supervisor/daftar-barang-masuk','as'=>'supervisor.daftar-barang-masuk.'], function(){
+        Route::get('/', [BarangController::class,'index'])->name('index');
+        Route::post('store', [BarangController::class,'store'])->name('store');
+        Route::post('update', [BarangController::class,'update'])->name('update');
+        Route::get('delete/{id}', [BarangController::class,'delete'])->name('delete');
+        Route::post('import', [BarangController::class,'import'])->name('import');
+    });
+    
+    // Barang Masuk
+    Route::group(['prefix'=>'supervisor/barang-masuk','as'=>'supervisor.barang-masuk.'], function(){
+        Route::get('/', [BarangMasukController::class,'index'])->name('index');
+        Route::get('check-barang', [BarangMasukController::class,'checkBarang'])->name('checkBarang');
+    });
+    
+    // Masuk Rak
+    Route::group(['prefix'=>'supervisor/masuk-rak','as'=>'supervisor.masuk-rak.'], function(){
+        Route::get('/', [MasukRakController::class,'index'])->name('index');
+        Route::get('check-barang', [MasukRakController::class,'checkBarang'])->name('checkBarang');
+    });
+
+    // Daftar Barang Keluar
+    Route::group(['prefix'=>'supervisor/daftar-barang-keluar','as'=>'supervisor.daftar-barang-keluar.'], function(){
+        Route::get('/', [DaftarBarangKeluarController::class,'index'])->name('index');
+        Route::get('get-data-barang', [DaftarBarangKeluarController::class,'getDataBarang'])->name('getDataBarang');
+        Route::post('store', [DaftarBarangKeluarController::class,'store'])->name('store');
+        Route::get('delete/{id_barang}', [DaftarBarangKeluarController::class,'delete'])->name('delete');
+        Route::post('import', [DaftarBarangKeluarController::class,'import'])->name('import');
+    });
+    
+    // Barang Keluar
+    Route::group(['prefix'=>'supervisor/barang-keluar','as'=>'supervisor.barang-keluar.'], function(){
+        Route::get('/', [BarangKeluarController::class,'index'])->name('index');
+        Route::get('check-barang', [BarangKeluarController::class,'checkBarang'])->name('checkBarang');
+    });
+    
+    // Sewa Barang
+    Route::group(['prefix'=>'supervisor/sewa-barang','as'=>'supervisor.sewa-barang.'], function(){
+        Route::get('/', [SewaBarangController::class,'index'])->name('index');
+        Route::get('cetak-invoice/{id_barang}', [SewaBarangController::class,'cetakInvoice'])->name('cetak.invoice');
+    });
 });

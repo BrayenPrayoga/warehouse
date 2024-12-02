@@ -10,7 +10,7 @@ class MasukRakController extends Controller
 {
     //
     function __construct(){
-        $this->middleware('auth:admin');
+        // $this->middleware('auth:admin');
     }
 
     public function index(){
@@ -24,6 +24,8 @@ class MasukRakController extends Controller
     }
     
     public function checkBarang(){
+        date_default_timezone_set('Asia/Jakarta');
+        
         $kode_rak = $_GET['kode_rak'];
         $kode_barang = $_GET['kode_barang'];
 

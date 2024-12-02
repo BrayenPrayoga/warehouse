@@ -26,6 +26,8 @@ class AuthController extends Controller
             return redirect()->intended('/dashboard');
         }else if (Auth::guard('user_billing')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 5])) { // user nilling
             return redirect()->intended('/dashboard');
+        } else if (Auth::guard('supervisor')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 6])) { // supervisor
+            return redirect()->intended('/dashboard');
         } else {
             $request->session()->flash('error', 'Gagal Login, SIlahkan Periksa Email dan Password Anda!');
             return redirect()->intended('/');

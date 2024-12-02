@@ -59,6 +59,8 @@
                                             <label class="badge badge-gradient-success">user stok</label>
                                             @elseif($item->status == 5)
                                             <label class="badge badge-gradient-success">user billing</label>
+                                            @elseif($item->status == 6)
+                                            <label class="badge badge-gradient-success">supervisor</label>
                                             @endif
                                         </td>
                                         <td> {{ $item->created_at }} </td>
@@ -86,7 +88,7 @@
                     <h5 class="modal-title" id="StoreModalLabel">Tambah Users</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.users.store') }}" enctype="multipart/form-data">
                 @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -109,6 +111,7 @@
                                 <option value="3">USER GATE OUT</option>
                                 <option value="4">USER STOK</option>
                                 <option value="5">USER BILLING</option>
+                                <option value="6">SUPERVISOR</option>
                             </select>
                         </div>
                     </div>
@@ -128,7 +131,7 @@
                     <h5 class="modal-title" id="EditModalLabel">Edit Users</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('users.update') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.users.update') }}" enctype="multipart/form-data">
                 @csrf
                     <div class="modal-body">
                         <input type="hidden" id="e_id" name="id">
@@ -152,6 +155,7 @@
                                 <option value="3">USER GATE OUT</option>
                                 <option value="4">USER STOK</option>
                                 <option value="5">USER BILLING</option>
+                                <option value="6">SUPERVISOR</option>
                             </select>
                         </div>
                     </div>
@@ -194,7 +198,7 @@
             confirmButtonText: "Yes, delete!"
         }).then((result) => {
             if(result.isConfirmed) {
-                window.location.href = "{{ url('users/delete') }}/"+id;
+                window.location.href = "{{ url('admin/users/delete') }}/"+id;
             }else{
                 Swal.fire({
                     title: "Batal!",

@@ -260,7 +260,7 @@
                 }
             },
             title: {
-                text: 'Persentase Jumlah dan Berat',
+                text: 'Persentase Jumlah Barang',
                 align: 'center'
             },
             plotOptions: {

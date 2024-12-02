@@ -90,6 +90,8 @@
     function changeStatus(){
         @if(Auth::guard('admin')->check())
             var url = "{{ route('admin.barang-masuk.checkBarang') }}";
+        @elseif(Auth::guard('supervisor')->check())
+        var url = "{{ route('supervisor.barang-masuk.checkBarang') }}";
         @else
             var url = "{{ route('user.barang-masuk.checkBarang') }}";
         @endif

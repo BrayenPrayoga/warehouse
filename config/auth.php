@@ -60,6 +60,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'supervisor' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',

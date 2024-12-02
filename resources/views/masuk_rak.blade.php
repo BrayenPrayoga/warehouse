@@ -29,16 +29,19 @@
                         <div class="table-responsive">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center">
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <label>RAK</label>
                                         <input type="text" class="form-control" id="kode_rak" name="kode_rak">
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <label>KODE BARANG</label>
                                         <input type="text" class="form-control" id="kode_barang" name="kode_barang">
                                     </div>
                                     <button type="button" id="buttonAdd" class="btn btn-sm btn-success btn-fw" onclick="changeStatus()" style="margin-top:23px;">
                                         <i class="mdi mdi-plus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-dark btn-fw" onclick="exportTableToExcel()" style="margin-top:23px;">
+                                        <i class="mdi mdi-file-excel"></i>Export
                                     </button>
                                 </div>
                             </div>
@@ -82,6 +85,7 @@
 @endsection
 
 @section('javascript')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
     $(document).ready( function () {
         $('#table-id').DataTable();
@@ -96,6 +100,8 @@
     function changeStatus(){
         @if(Auth::guard('admin')->check())
             var url = "{{ route('admin.masuk-rak.checkBarang') }}";
+        @elseif(Auth::guard('supervisor')->check())
+            var url = "{{ route('supervisor.masuk-rak.checkBarang') }}";
         @else
             var url = "{{ route('user.barang-masuk.checkBarang') }}";
         @endif
@@ -183,6 +189,24 @@
 
         $('#rak').val(0);
         $('#EditModal').modal('show');
+    }
+    
+    function exportTableToExcel() {
+        var table = document.getElementById("table-id");
+
+        // Buat salinan tabel tanpa kolom terakhir
+        var tempTable = table.cloneNode(true);
+        var rows = tempTable.rows;
+
+        // for (var i = 0; i < rows.length; i++) {
+        //     rows[i].deleteCell(-1); // Hapus kolom terakhir di setiap baris
+        // }
+
+        // Buat workbook dan worksheet dari salinan tabel
+        var wb = XLSX.utils.table_to_book(tempTable, { sheet: "Sheet1" });
+
+        // Ekspor workbook ke file Excel
+        XLSX.writeFile(wb, "masuk-rak.xlsx");
     }
 </script>
 

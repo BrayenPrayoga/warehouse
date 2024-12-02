@@ -49,7 +49,7 @@ class DaftarBarangKeluarController extends Controller
     }
 
     public function delete($id_barang){
-        $response = Barang::deleteModel($id_barang);
+        $response = Barang::deleteModel($id_barang, 'keluar');
         
         if($response['message'] == 'success'){
             return redirect()->back()->with(['success'=>'Berhasil Hapus']);

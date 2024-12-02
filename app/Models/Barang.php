@@ -83,10 +83,16 @@ class Barang extends Model
         }
     }
 
-    public static function deleteModel($id_barang){
+    public static function deleteModel($id_barang, $param){
         try{
-            Barang::where('id', $id_barang)->update(['status'=>1]);
-            ProsesKeluar::where('id_barang', $id_barang)->delete();
+            if($param == 'keluar'){
+                Barang::where('id', $id_barang)->update(['status'=>1]);
+                ProsesKeluar::where('id_barang', $id_barang)->delete();
+            }else{
+                Barang::where('id', $id_barang)->delete();
+                ProsesMasuk::where('id_barang', $id_barang)->delete();
+                ProsesKeluar::where('id_barang', $id_barang)->delete();
+            }
             
             return ['message' => 'success', 'data' => 'Berhasil Hapus'];
         }catch(Exception $e){

@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <td colspan='7'>
-                    <div style='text-align:right'>Terbilang : {{ TerbilangRupiah($barang->biaya) }}</div>
+                    <div style='text-align:right'>Terbilang : {{ ($barang->biaya) ? TerbilangRupiah($barang->biaya).' Rupiah' : '-' }} </div>
                 </td>
             </tr>
             {{-- <tr>
